@@ -8,17 +8,17 @@ namespace GALib.Crossover
 {
   public class PartiallyMappedCrossover : CrossoverMethod
   {
-    //public int MinCrossoverWidth { get; set; } // TODO
-    //public int MaxCrossoverWidth { get; set; } // TODO
+    //public int MinCrossoverWidth { get; set; } // TODO implement
+    //public int MaxCrossoverWidth { get; set; } // TODO implement
 
     public bool ProduceTwoChildren { get; set; } = true;
 
     /// <summary>
-    /// 
+    /// Performs partially mapped crossover
     /// </summary>
     /// <typeparam name="Gene"></typeparam>
-    /// <param name="parents"></param>
-    /// <returns></returns>
+    /// <param name="parents">The parents</param>
+    /// <returns>One or two chromosomes depending on the value of <see cref="ProduceTwoChildren"/></returns>
     public override Gene[][] DoCrossover<Gene>(List<IGenotype> parents)
     {
       Genotype<Gene> parentA, parentB;
