@@ -44,7 +44,8 @@ namespace Test
         CrossoverMethod = new GALib.Crossover.PartiallyMappedCrossover()
         {
           ProduceTwoChildren = false
-        }
+        },
+        MutationMethod = new GALib.Mutation.NoMutation()
       };
 
       nQueen.Run(1);

@@ -8,7 +8,7 @@ namespace Test
   {
     public int NumQueens { get; private set; }
     public List<int> GeneDomain { get; private set; } = new List<int>();
-    public int BestFitness { get; set; }
+    public int BestFitness { get; protected set; }
 
     /// <summary>
     /// 
@@ -31,18 +31,17 @@ namespace Test
     /// 
     /// </summary>
     /// <returns></returns>
-    public override Genotype<int> GenerateRandomMember()
+    public override IGenotype GenerateRandomMember()
     {
       int[] geneSequence;
-
       double fitness;
 
       geneSequence = new int[NumQueens];
       GeneDomain.CopyTo(geneSequence);
       Tools.Shuffle(geneSequence);
-      fitness = FitnessFunction(geneSequence);
+      fitness = FitnessFunction(geneSequence, out bool junk);
 
-      return new GenotypeGenericList<int>(geneSequence,fitness);
+      return new GenotypeGenericList<int>(geneSequence, fitness);
     }
 
     /// <summary>
@@ -50,7 +49,7 @@ namespace Test
     /// </summary>
     /// <param name="geneSequence"></param>
     /// <returns></returns>
-    public override double FitnessFunction(int[] geneSequence)
+    public override double FitnessFunction(int[] geneSequence, out bool solutionFound)
     {
       int conflicts = 0;
 
@@ -60,6 +59,8 @@ namespace Test
             conflicts++;
           else if (geneSequence[i] - (j - i) == geneSequence[j])
             conflicts++;
+
+      solutionFound = (conflicts == 0);
 
       return BestFitness - conflicts;
     }

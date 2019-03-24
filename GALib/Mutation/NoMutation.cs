@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace GALib.Mutation
 {
-  public abstract class MutationMethod
+  public class NoMutation : MutationMethod
   {
-    public abstract bool DoMutation<Gene>(ref Gene[] chromosome);
+    public override bool DoMutation<Gene>(ref Gene[] chromosome)
+    {
+      return false;
+    }
   }
 }

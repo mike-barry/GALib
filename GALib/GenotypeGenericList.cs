@@ -29,8 +29,8 @@ namespace GALib
     /// Calculates the hash code for Chromosome
     /// </summary>
     /// <remarks>
-    /// https://stackoverflow.com/questions/8094867/good-gethashcode-override-for-list-of-foo-objects-respecting-the-order
-    /// TODO look in to implementing SpookyHash (see link)
+    /// Implementation taken from https://stackoverflow.com/questions/8094867/good-gethashcode-override-for-list-of-foo-objects-respecting-the-order
+    /// TODO look in to implementing SpookyHash from link
     /// </remarks>
     private void CalculateHashCode()
     {
@@ -97,8 +97,8 @@ namespace GALib
     /// <returns></returns>
     public override string ToString()
     {
-      //return string.Join(" ", Chromosome);
-      return Fitness + ": " + string.Join(" ", Chromosome);
+      return string.Join(" ", Chromosome);
+      //return Fitness + ": " + string.Join(" ", Chromosome);
     }
   }
 }

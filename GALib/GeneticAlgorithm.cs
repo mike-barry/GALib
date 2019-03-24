@@ -10,24 +10,21 @@ namespace GALib
     where Gene : IComparable
   {
     public int PopulationSize { get; set; } = 100;
-    public bool AllowInitializationDuplicates { get; set; } = false;
-    public int MaxRetriesForInitializationDuplicates { get; set; } = 100;
-
-    public bool PreserveParents { get; set; } = false; // aka elitism -- TODO
-    public bool MutateParents { get; set; } = false; // TODO
-
     public List<IGenotype> Population { get; private set; } = null;
 
+    public bool AllowInitializationDuplicates { get; set; } = false;
+    public bool AllowBreedingDuplicates { get; set; } = false; // TODO implement
+    public int MaxRetriesForDuplicates { get; set; } = 100; // This is used to prevent infinite loops
+    public bool PreserveParents { get; set; } = false; // aka elitism
+
+    public GenotypeFactory.CreateGenotype<Gene> CreateMethod { get; private set; } = null;
     public Selection.SelectionMethod SelectionMethod { get; set; } = null;
     public Crossover.CrossoverMethod CrossoverMethod { get; set; } = null;
     public Mutation.MutationMethod MutationMethod { get; set; } = null;
 
-    public abstract Genotype<Gene> GenerateRandomMember();
-
-    public abstract double FitnessFunction(Gene[] geneSequence);
-
-    //public abstract double OptimalFitness { get; set; }
-
+    public abstract IGenotype GenerateRandomMember();
+    public abstract double FitnessFunction(Gene[] geneSequence, out bool solutionFound);
+    
     /// <summary>
     /// Constructor
     /// </summary>
@@ -40,48 +37,107 @@ namespace GALib
     /// </summary>
     /// <param name="numGenerations">The number of generations</param>
     /// <returns></returns>
-    public Genotype<Gene> Run(uint numGenerations)
+    public IGenotype Run(uint numGenerations)
     {
-      List<IGenotype> parents, nextPopulation;
+      ICollection<IGenotype> nextPopulation;
+      List<IGenotype> parents;
+      HashSet<IGenotype> preservedParents;
       Gene[][] children;
-      Genotype<Gene> theStud;
       IGenotype child;
+      double fitness;
+      bool solutionFound, mutated;
+      int duplicateRetryCount;
 
       ParameterCheck();
 
       if (Population == null)
         InitializePopulation();
 
-      theStud = (Genotype<Gene>)Population[0];
+      if (AllowBreedingDuplicates)
+        nextPopulation = new List<IGenotype>(PopulationSize);
+      else
+        nextPopulation = new HashSet<IGenotype>();
 
-      nextPopulation = new List<IGenotype>(PopulationSize);
+      if (PreserveParents && AllowBreedingDuplicates)
+        preservedParents = new HashSet<IGenotype>();
+      else
+        preservedParents = null;
+
+      solutionFound = false;
+      duplicateRetryCount = 0;
 
       for (int generation = 0; generation < numGenerations; generation++)
       {
         nextPopulation.Clear();
+
+        if (PreserveParents)
+          preservedParents.Clear();
+
         SelectionMethod.Initialize(Population);
 
         while (nextPopulation.Count < PopulationSize)
         {
           parents = SelectionMethod.DoSelection();
+
+          if (PreserveParents)
+            if (AllowBreedingDuplicates)
+            {
+              // nextPopulation is a List so make sure parents are added only once
+              foreach (IGenotype parent in parents)
+                if (preservedParents.Add(parent))
+                  nextPopulation.Add(parent);
+            }
+            else
+            {
+              // nextPopulation is a HashSet so it doesn't matter
+              foreach (IGenotype parent in parents)
+                nextPopulation.Add(parent);
+            }
+
+          // Perform crossover
           children = CrossoverMethod.DoCrossover<Gene>(parents);
 
-          for( int i = 0; i < children.Length; i++ )
+          // Iterate through each child produced by crossover
+          for ( int i = 0; i < children.Length; i++ )
           {
-            //MutationMethod.DoMutation<Gene>(ref children[i]);
-            child = theStud.GenericConstructor(children[i], FitnessFunction(children[i]));
-            // TODO duplicate children check ???
-            // TODO break if solution found
-            nextPopulation.Add(child);
+            // Calculate fitness of child
+            fitness = FitnessFunction(children[i], out solutionFound);
+
+            // Perform mutation (but skip if solution was found)
+            mutated = solutionFound ? false : MutationMethod.DoMutation<Gene>(ref children[i]);
+
+            // Recalculate fitness if mutation occurred
+            if (mutated) 
+              fitness = FitnessFunction(children[i], out solutionFound);
+
+            // Instantiate child
+            child = CreateMethod(children[i], fitness);
+
+            if (AllowInitializationDuplicates)
+              nextPopulation.Add(child);
+            else if (((HashSet<IGenotype>)nextPopulation).Add(child) == false)
+              if (++duplicateRetryCount > MaxRetriesForDuplicates)
+                throw new Exception("Reached the maximum number of retry attempts to generate a unique child");
+              else
+                continue;
+
+            duplicateRetryCount = 0;
           }
+          
+          if (solutionFound)
+            break;
         }
 
-        Population = nextPopulation;
+        if (AllowBreedingDuplicates)
+          Population = (List<IGenotype>)nextPopulation;
+        else
+          Population = nextPopulation.ToList();
       }
 
       // Sort the population based on fitness (higher fitness will be at end of list)
       Population.Sort((a, b) => a.Fitness.CompareTo(b.Fitness));
 
+      // Return the individual with the highest score
       return (Genotype<Gene>)Population[Population.Count];
     }
 
@@ -96,8 +152,11 @@ namespace GALib
       if (CrossoverMethod is null)
         throw new Exception("No crossover method specified");
 
-      //if (MutationMethod is null)
-      //  throw new Exception("No mutation method specified");
+      if (MutationMethod is null)
+        throw new Exception("No mutation method specified");
+
+      if (PopulationSize < 1)
+        throw new Exception("Invalid population size");
     }
 
     /// <summary>
@@ -105,28 +164,38 @@ namespace GALib
     /// </summary>
     private void InitializePopulation()
     {
-      int attemptNum;
-      HashSet<IGenotype> unique;
-      Genotype<Gene> member;
+      int retryCount;
+      ICollection<IGenotype> population;
+      IGenotype member;
 
-      unique = new HashSet<IGenotype>();
-      attemptNum = 0;
+      if (AllowInitializationDuplicates)
+        population = new List<IGenotype>(PopulationSize);
+      else
+        population = new HashSet<IGenotype>();
 
-      while (unique.Count < PopulationSize)
+      retryCount = 0;
+
+      while (population.Count < PopulationSize)
       {
         member = GenerateRandomMember();
 
-        if (!AllowInitializationDuplicates && unique.Contains(member))
-          if (++attemptNum > MaxRetriesForInitializationDuplicates)
+        if(AllowInitializationDuplicates)
+          population.Add(member);
+        else if (((HashSet<IGenotype>)population).Add(member) == false)
+          if (++retryCount > MaxRetriesForDuplicates)
             throw new Exception("Reached the maximum number of retry attempts to generate a unique random population member");
           else
             continue;
 
-        unique.Add(member);
-        attemptNum = 0;
+        retryCount = 0;
       }
 
-      Population = new List<IGenotype>(unique);
+      if (AllowInitializationDuplicates)
+        Population = (List<IGenotype>)population;
+      else
+        Population = population.ToList();
+
+      CreateMethod = GenotypeFactory.GetCreateMethod<Gene>(Population[0].GetType());
     }
   }
 }

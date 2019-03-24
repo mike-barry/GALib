@@ -8,8 +8,8 @@ namespace GALib.Crossover
 {
   public class PartiallyMappedCrossover : CrossoverMethod
   {
-    //public int MinCrossoverWidth { get; set; }
-    //public int MaxCrossoverWidth { get; set; }
+    //public int MinCrossoverWidth { get; set; } // TODO
+    //public int MaxCrossoverWidth { get; set; } // TODO
 
     public bool ProduceTwoChildren { get; set; } = true;
 
@@ -32,15 +32,15 @@ namespace GALib.Crossover
 
       length = parentA.Length;
       start = Tools.StaticRandom.Next(0, length);
-      stop = Tools.StaticRandom.Next(start, length); // TODO this is not right
+      stop = Tools.StaticRandom.Next(start, length) + 1;
 
       if (!ProduceTwoChildren)
       {
         childA = new Gene[length];
 
-        mapA = new Dictionary<Gene,Gene>(stop - start + 1);
+        mapA = new Dictionary<Gene,Gene>(stop - start);
 
-        for (int i = start; i <= stop; i++)
+        for (int i = start; i < stop; i++)
         {
           childA[i] = parentB[i];
           mapA.Add(parentB[i], parentA[i]);
@@ -53,7 +53,7 @@ namespace GALib.Crossover
             childA[i] = mapA[childA[i]];
         }
 
-        for (int i = stop + 1; i < length; i++)
+        for (int i = stop; i < length; i++)
         {
           childA[i] = parentA[i];
           while (mapA.ContainsKey(childA[i]))
@@ -67,10 +67,10 @@ namespace GALib.Crossover
         childA = new Gene[length];
         childB = new Gene[length];
 
-        mapA = new Dictionary<Gene,Gene>(stop - start + 1);
-        mapB = new Dictionary<Gene,Gene>(stop - start + 1);
+        mapA = new Dictionary<Gene,Gene>(stop - start);
+        mapB = new Dictionary<Gene,Gene>(stop - start);
 
-        for (int i = start; i <= stop; i++)
+        for (int i = start; i < stop; i++)
         {
           childA[i] = parentB[i];
           childB[i] = parentA[i];
@@ -90,7 +90,7 @@ namespace GALib.Crossover
             childB[i] = mapA[childB[i]];
         }
 
-        for (int i = stop + 1; i < length; i++)
+        for (int i = stop; i < length; i++)
         {
           childA[i] = parentA[i];
           while (mapA.ContainsKey(childA[i]))
