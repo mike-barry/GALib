@@ -12,8 +12,7 @@ namespace GALib
     public int PopulationSize { get; set; } = 100;
     public List<IGenotype> Population { get; private set; } = null;
 
-    public bool AllowInitializationDuplicates { get; set; } = false;
-    public bool AllowBreedingDuplicates { get; set; } = false; // TODO implement
+    public bool AllowDuplicates { get; set; } = false;
     public int MaxRetriesForDuplicates { get; set; } = 100; // This is used to prevent infinite loops
     public bool PreserveParents { get; set; } = false; // aka elitism
 
@@ -53,12 +52,12 @@ namespace GALib
       if (Population == null)
         InitializePopulation();
 
-      if (AllowBreedingDuplicates)
+      if (AllowDuplicates)
         nextPopulation = new List<IGenotype>(PopulationSize);
       else
         nextPopulation = new HashSet<IGenotype>();
 
-      if (PreserveParents && AllowBreedingDuplicates)
+      if (PreserveParents && AllowDuplicates)
         preservedParents = new HashSet<IGenotype>();
       else
         preservedParents = null;
@@ -80,7 +79,7 @@ namespace GALib
           parents = SelectionMethod.DoSelection();
 
           if (PreserveParents)
-            if (AllowBreedingDuplicates)
+            if (AllowDuplicates)
             {
               // nextPopulation is a List so make sure parents are added only once
               foreach (IGenotype parent in parents)
@@ -113,7 +112,7 @@ namespace GALib
             // Instantiate child
             child = CreateMethod(children[i], fitness);
 
-            if (AllowInitializationDuplicates)
+            if (AllowDuplicates)
               nextPopulation.Add(child);
             else if (((HashSet<IGenotype>)nextPopulation).Add(child) == false)
               if (++duplicateRetryCount > MaxRetriesForDuplicates)
@@ -128,7 +127,7 @@ namespace GALib
             break;
         }
 
-        if (AllowBreedingDuplicates)
+        if (AllowDuplicates)
           Population = (List<IGenotype>)nextPopulation;
         else
           Population = nextPopulation.ToList();
@@ -168,7 +167,7 @@ namespace GALib
       ICollection<IGenotype> population;
       IGenotype member;
 
-      if (AllowInitializationDuplicates)
+      if (AllowDuplicates)
         population = new List<IGenotype>(PopulationSize);
       else
         population = new HashSet<IGenotype>();
@@ -179,7 +178,7 @@ namespace GALib
       {
         member = GenerateRandomMember();
 
-        if(AllowInitializationDuplicates)
+        if(AllowDuplicates)
           population.Add(member);
         else if (((HashSet<IGenotype>)population).Add(member) == false)
           if (++retryCount > MaxRetriesForDuplicates)
@@ -190,7 +189,7 @@ namespace GALib
         retryCount = 0;
       }
 
-      if (AllowInitializationDuplicates)
+      if (AllowDuplicates)
         Population = (List<IGenotype>)population;
       else
         Population = population.ToList();

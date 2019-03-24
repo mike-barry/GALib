@@ -34,7 +34,7 @@ namespace Test
       nQueen = new NQueenGA(8)
       {
         PopulationSize = 100,
-        AllowInitializationDuplicates = false,
+        AllowDuplicates = false,
         //SelectionMethod = new GALib.Selection.TruncationSelection(),
         SelectionMethod = new GALib.Selection.FitnessProportionateSelection()
         {
