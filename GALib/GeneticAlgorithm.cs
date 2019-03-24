@@ -81,14 +81,14 @@ namespace GALib
           if (PreserveParents)
             if (AllowDuplicates)
             {
-              // nextPopulation is a List so make sure parents are added only once
+              // nextPopulation is a List so we need to make sure parents are added only once
               foreach (IGenotype parent in parents)
                 if (preservedParents.Add(parent))
                   nextPopulation.Add(parent);
             }
             else
             {
-              // nextPopulation is a HashSet so it doesn't matter
+              // nextPopulation is a HashSet so we can just keep adding the parents
               foreach (IGenotype parent in parents)
                 nextPopulation.Add(parent);
             }
@@ -102,7 +102,7 @@ namespace GALib
             // Calculate fitness of child
             fitness = FitnessFunction(children[i], out solutionFound);
 
-            // Perform mutation (but skip if solution was found)
+            // Perform mutation (but skip if solution has been found)
             mutated = solutionFound ? false : MutationMethod.DoMutation<Gene>(ref children[i]);
 
             // Recalculate fitness if mutation occurred
