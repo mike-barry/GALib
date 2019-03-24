@@ -48,17 +48,6 @@ namespace GALib
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="chromosome"></param>
-    /// <param name="fitness"></param>
-    /// <returns></returns>
-    public override Genotype<Gene> GenericConstructor(Gene[] chromosome, double fitness)
-    {
-      return new GenotypeGenericList<Gene>(chromosome, fitness);
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
     /// <param name="obj"></param>
     /// <returns></returns>
     public override bool Equals(object obj)

@@ -13,8 +13,6 @@ namespace GALib
     public int Length { get; protected set; }
 
     public abstract Gene this[int index] { get; }
-    public abstract Genotype<Gene> GenericConstructor(Gene[] chromosome, double fitness);
-
     public abstract override bool Equals(object obj);
     public abstract override int GetHashCode();
     public abstract override string ToString();

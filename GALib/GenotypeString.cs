@@ -19,17 +19,6 @@ namespace GALib
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="chromosome"></param>
-    /// <param name="fitness"></param>
-    /// <returns></returns>
-    public override Genotype<char> GenericConstructor(char[] chromosome, double fitness)
-    {
-      return new GenotypeString(new string(chromosome), fitness);
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
     /// <param name="index"></param>
     /// <returns></returns>
     public override char this[int index]
