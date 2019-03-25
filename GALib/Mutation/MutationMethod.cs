@@ -8,12 +8,50 @@ namespace GALib.Mutation
 {
   public abstract class MutationMethod
   {
+    private double mutationChance = 0.10;
+
     /// <summary>
-    /// Performs mutation
+    /// Gets or sets the mutation chance.
     /// </summary>
-    /// <typeparam name="Gene">The gene type</typeparam>
-    /// <param name="chromosome">The chromosome</param>
-    /// <returns>True if a mutation occurred; otherwise, false</returns>
-    public abstract bool DoMutation<Gene>(ref Gene[] chromosome);
+    /// <value>
+    /// The mutation chance.
+    /// </value>
+    /// <exception cref="ArgumentException">Value must be between 0 and 1</exception>
+    public double MutationChance
+    {
+      get
+      {
+        return mutationChance;
+      }
+      set
+      {
+        if (mutationChance < 0 || mutationChance > 1)
+          throw new ArgumentException("Value must be between 0 and 1");
+      }
+    }
+
+    /// <summary>
+    /// Performs mutation of the chromosome.
+    /// </summary>
+    /// <typeparam name="Gene">The type of the Gene.</typeparam>
+    /// <param name="chromosome">The chromosome.</param>
+    /// <returns></returns>
+    public virtual bool DoMutation<Gene>(ref Gene[] chromosome)
+    {
+      if (MutationChance < Tools.StaticRandom.NextDouble())
+      {
+        HandleMutation<Gene>(ref chromosome);
+        return true;
+      }
+      else
+        return false;
+    }
+
+    /// <summary>
+    /// Handles the mutation.
+    /// </summary>
+    /// <typeparam name="Gene">The type of the ene.</typeparam>
+    /// <param name="chromosome">The chromosome.</param>
+    protected abstract void HandleMutation<Gene>(ref Gene[] chromosome);
   }
 }
