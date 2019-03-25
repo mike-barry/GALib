@@ -56,13 +56,13 @@ namespace GALib
     /// Adds an item to the <see cref="T:System.Collections.Generic.ICollection`1" />.
     /// </summary>
     /// <param name="item">The object to add to the <see cref="T:System.Collections.Generic.ICollection`1" />.</param>
-    /// <exception cref="Exception">Too many consecutive duplicates added to CustomHashSet</exception>
+    /// <exception cref="Exception">Too many consecutive duplicates added to <see cref="SafeHashSet"/></exception>
     public void Add(IGenotype item)
     {
       if (Instance.Add(item) == false)
       {
         if (++RetryCount > MaxAddRetries)
-          throw new Exception("Too many consecutive duplicates added to CustomHashSet");
+          throw new Exception("Too many consecutive duplicates added to SafeHashSet");
       }
       else
         RetryCount = 0;
