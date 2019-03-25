@@ -14,8 +14,8 @@ namespace Test
     /// 
     /// </summary>
     /// <param name="numQueens"></param>
-    public NQueenGA(int numQueens) :
-      base(false, 100)
+    public NQueenGA(int numQueens, bool allowDuplicates, int maxRetriesForDuplicates) :
+      base(allowDuplicates, maxRetriesForDuplicates)
     {
       NumQueens = numQueens;
       BestFitness = 0;

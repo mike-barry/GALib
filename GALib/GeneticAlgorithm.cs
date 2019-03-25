@@ -9,10 +9,7 @@ namespace GALib
   /// <summary>
   /// 
   /// </summary>
-  /// <typeparam name="Gene">The type of the ene.</typeparam>
-  /// <remarks>
-  /// TODO change Population to be an ICollection -- it will simplify code but will require code changes in SelectionMethod classes
-  /// </remarks>
+  /// <typeparam name="Gene">The type of the Gene.</typeparam>
   public abstract class GeneticAlgorithm<Gene>
     where Gene : IComparable
   {
@@ -22,7 +19,7 @@ namespace GALib
     public bool AllowDuplicates { get; private set; }
     public int MaxRetriesForDuplicates { get; private set; }
 
-    public bool PreserveParents { get; set; } = false; // aka elitism
+    public double PreserveElitePercent { get; set; } = 0; // TODO limit to between 0 and 1
 
     public GenotypeFactory.CreateGenotype<Gene> CreateMethod { get; private set; } = null;
     public Selection.SelectionMethod SelectionMethod { get; set; } = null;
@@ -35,21 +32,10 @@ namespace GALib
     /// <summary>
     /// Constructor
     /// </summary>
-    public GeneticAlgorithm(bool allowDuplicates, int maxRetriesForDuplicates = 100)
+    public GeneticAlgorithm(bool allowDuplicates, int maxRetriesForDuplicates)
     {
       AllowDuplicates = allowDuplicates;
       MaxRetriesForDuplicates = maxRetriesForDuplicates;
-
-      //if (allowDuplicates)
-      //{
-      //  Population = new List<IGenotype>();
-      //  MaxRetriesForDuplicates = -1;
-      //}
-      //else
-      //{
-      //  Population = new SmartHashSet(maxRetriesForDuplicates);
-      //  MaxRetriesForDuplicates = maxRetriesForDuplicates;
-      //}
     }
 
     /// <summary>
@@ -61,11 +47,11 @@ namespace GALib
     {
       ICollection<IGenotype> nextPopulation;
       List<IGenotype> parents;
-      HashSet<IGenotype> preservedParents;
       Gene[][] children;
       IGenotype child;
       double fitness;
       bool solutionFound, mutated;
+      int eliteSkip;
 
       ParameterCheck();
 
@@ -75,42 +61,24 @@ namespace GALib
       if (AllowDuplicates)
         nextPopulation = new List<IGenotype>(PopulationSize);
       else
-        nextPopulation = new SafeHashSet(MaxRetriesForDuplicates);
+        nextPopulation = new SafeHashSet<IGenotype>(MaxRetriesForDuplicates);
 
-      if (PreserveParents && AllowDuplicates)
-        preservedParents = new HashSet<IGenotype>();
-      else
-        preservedParents = null;
-
+      eliteSkip = PopulationSize - (int)(PreserveElitePercent * PopulationSize);
       solutionFound = false;
 
       for (int generation = 0; generation < numGenerations; generation++)
       {
         nextPopulation.Clear();
 
-        if (PreserveParents)
-          preservedParents.Clear();
+        if( PreserveElitePercent > 0)
+          foreach (IGenotype individual in Population.OrderBy(x => x.Fitness).Skip(eliteSkip).ToList())
+            nextPopulation.Add(individual);
 
         SelectionMethod.Initialize(Population);
 
         while (nextPopulation.Count < PopulationSize)
         {
           parents = SelectionMethod.DoSelection();
-
-          if (PreserveParents)
-            if (AllowDuplicates)
-            {
-              // nextPopulation is a List so we need to make sure parents are added only once
-              foreach (IGenotype parent in parents)
-                if (preservedParents.Add(parent))
-                  nextPopulation.Add(parent);
-            }
-            else
-            {
-              // nextPopulation is a HashSet so we can just keep adding the parents
-              foreach (IGenotype parent in parents)
-                nextPopulation.Add(parent);
-            }
 
           // Perform crossover
           children = CrossoverMethod.DoCrossover<Gene>(parents);
@@ -131,17 +99,26 @@ namespace GALib
             // Instantiate child
             child = CreateMethod(children[i], fitness);
 
-            nextPopulation.Add(child);
+            try
+            {
+              nextPopulation.Add(child);
+            }
+            catch (SafeHashSetException ex)
+            {
+              continue; // TODO need to do something more intelligent here
+            }
           }
           
           if (solutionFound)
             break;
         }
 
-        if (AllowDuplicates)
-          Population = (List<IGenotype>)nextPopulation;
-        else
-          Population = nextPopulation.ToList();
+        Console.WriteLine("Gen " + generation + ": " + Population.OrderBy(x => x.Fitness).Last().Fitness);
+
+        Population = nextPopulation.ToList();
+
+        if (solutionFound)
+          break;
       }
 
       // Return the individual with the highest fitness
@@ -176,12 +153,11 @@ namespace GALib
       if (AllowDuplicates)
         population = new List<IGenotype>(PopulationSize);
       else
-        population = new SafeHashSet(MaxRetriesForDuplicates);
+        population = new SafeHashSet<IGenotype>(MaxRetriesForDuplicates);
 
       while (population.Count < PopulationSize)
         population.Add(GenerateRandomMember());
 
-      // TODO this can be removed if Population is converted to ICollection<IGenotype>
       if (AllowDuplicates)
         Population = (List<IGenotype>)population;
       else

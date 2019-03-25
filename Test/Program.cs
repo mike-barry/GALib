@@ -28,28 +28,44 @@ namespace Test
     {
       DateTime startTime, stopTime;
       NQueenGA nQueen;
+      int numQueens;
 
       startTime = DateTime.Now;
 
-      nQueen = new NQueenGA(8)
+      numQueens = 500;
+
+      nQueen = new NQueenGA(numQueens, true, numQueens * 2)
       {
-        PopulationSize = 100,
-        SelectionMethod = new GALib.Selection.TruncationSelection(),
+        PopulationSize = numQueens,// * 10,
+        PreserveElitePercent = 0.50,
+        SelectionMethod = new GALib.Selection.TruncationSelection()
+        {
+          TruncationPercent = 0.10
+        },
         //SelectionMethod = new GALib.Selection.FitnessProportionateSelection()
         //{
-        //  AllowDuplicates = false,
-        //  UseStochasticAcceptance = true
+        //  UseStochasticAcceptance = false
         //},
         CrossoverMethod = new GALib.Crossover.PartiallyMappedCrossover()
         {
           ProduceTwoChildren = true
         },
-        MutationMethod = new GALib.Mutation.NoMutation()
+        //MutationMethod = new GALib.Mutation.NoMutation()
+        MutationMethod = new GALib.Mutation.SwapMutation()
+        {
+          MutationChance = 0.90,
+          MaxNumberOfSwaps = 1//numQueens / 10
+        }
       };
 
-      nQueen.Run(1);
+      Console.WriteLine("Optimal = " + nQueen.BestFitness);
+
+      IGenotype result = nQueen.Run(int.MaxValue);
 
       stopTime = DateTime.Now;
+
+      Console.WriteLine("Optimal = " + nQueen.BestFitness);
+      Console.WriteLine("Result  = " + result.Fitness);
 
       Console.WriteLine();
       //Console.WriteLine("Solution found for " + nQueen.NumQueens + "-queen problem");
