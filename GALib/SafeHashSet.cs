@@ -13,15 +13,22 @@ namespace GALib
   /// <see cref="Exception"/> is thrown.  The purpose of this is to prevent infinite loops.
   /// 
   /// The underlying HashSet can be accessed using the <see cref="Instance"/> property.
-  /// 
-  /// TODO: Make generic
   /// </summary>
-  public class SafeHashSet : ICollection<IGenotype>
+  public class SafeHashSet<T> : ICollection<T>
   {
+    /// <summary>
+    /// The maximum number of consecutive duplicates before an exception is thrown.
+    /// </summary>
+    /// <param name="MaxAddRetries"></param>
+    public SafeHashSet(int MaxAddRetries)
+    {
+      Instance = new HashSet<T>();
+    }
+
     /// <summary>
     /// The underlying <see cref="HashSet"/> instance.
     /// </summary>
-    public HashSet<IGenotype> Instance { get; private set; }
+    public HashSet<T> Instance { get; private set; }
 
     /// <summary>
     /// The number of consecutive duplicates before an exception is thrown.
@@ -29,7 +36,7 @@ namespace GALib
     public int MaxAddRetries { get; set; } = 100;
 
     /// <summary>
-    /// The current retry count
+    /// The current retry count.
     /// </summary>
     public int RetryCount { get; private set; } = 0;
 
@@ -44,20 +51,11 @@ namespace GALib
     public bool IsReadOnly { get { return false; } }
 
     /// <summary>
-    /// The maximum number of consecutive duplicates before an exception is thrown.
-    /// </summary>
-    /// <param name="MaxAddRetries"></param>
-    public SafeHashSet(int MaxAddRetries)
-    {
-      Instance = new HashSet<IGenotype>();
-    }
-
-    /// <summary>
     /// Adds an item to the <see cref="T:System.Collections.Generic.ICollection`1" />.
     /// </summary>
     /// <param name="item">The object to add to the <see cref="T:System.Collections.Generic.ICollection`1" />.</param>
     /// <exception cref="Exception">Too many consecutive duplicates added to <see cref="SafeHashSet"/></exception>
-    public void Add(IGenotype item)
+    public void Add(T item)
     {
       if (Instance.Add(item) == false)
       {
@@ -83,7 +81,7 @@ namespace GALib
     /// <returns>
     ///   <see langword="true" /> if <paramref name="item" /> is found in the <see cref="T:System.Collections.Generic.ICollection`1" />; otherwise, <see langword="false" />.
     /// </returns>
-    public bool Contains(IGenotype item)
+    public bool Contains(T item)
     {
       return Instance.Contains(item);
     }
@@ -93,7 +91,7 @@ namespace GALib
     /// </summary>
     /// <param name="array">The one-dimensional <see cref="T:System.Array" /> that is the destination of the elements copied from <see cref="T:System.Collections.Generic.ICollection`1" />. The <see cref="T:System.Array" /> must have zero-based indexing.</param>
     /// <param name="arrayIndex">The zero-based index in <paramref name="array" /> at which copying begins.</param>
-    public void CopyTo(IGenotype[] array, int arrayIndex)
+    public void CopyTo(T[] array, int arrayIndex)
     {
       Instance.CopyTo(array, arrayIndex);
     }
@@ -105,7 +103,7 @@ namespace GALib
     /// <returns>
     ///   <see langword="true" /> if <paramref name="item" /> was successfully removed from the <see cref="T:System.Collections.Generic.ICollection`1" />; otherwise, <see langword="false" />. This method also returns <see langword="false" /> if <paramref name="item" /> is not found in the original <see cref="T:System.Collections.Generic.ICollection`1" />.
     /// </returns>
-    public bool Remove(IGenotype item)
+    public bool Remove(T item)
     {
       return Instance.Remove(item);
     }
@@ -116,7 +114,7 @@ namespace GALib
     /// <returns>
     /// An enumerator that can be used to iterate through the collection.
     /// </returns>
-    public IEnumerator<IGenotype> GetEnumerator()
+    public IEnumerator<T> GetEnumerator()
     {
       return Instance.GetEnumerator();
     }
