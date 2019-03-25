@@ -36,9 +36,9 @@ namespace GALib
     public int MaxAddRetries { get; set; } = 100;
 
     /// <summary>
-    /// The current retry count.
+    /// The current Add retry count.
     /// </summary>
-    public int RetryCount { get; private set; } = 0;
+    public int AddRetryCount { get; private set; } = 0;
 
     /// <summary>
     /// Gets the number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1" />.
@@ -59,11 +59,11 @@ namespace GALib
     {
       if (Instance.Add(item) == false)
       {
-        if (++RetryCount > MaxAddRetries)
-          throw new Exception("Too many consecutive duplicates added to SafeHashSet");
+        if (++AddRetryCount > MaxAddRetries)
+          throw new SafeHashSetException(MaxAddRetries);
       }
       else
-        RetryCount = 0;
+        AddRetryCount = 0;
     }
 
     /// <summary>
