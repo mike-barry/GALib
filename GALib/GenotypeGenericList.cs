@@ -86,8 +86,8 @@ namespace GALib
     /// <returns></returns>
     public override string ToString()
     {
-      return string.Join(" ", Chromosome);
-      //return Fitness + ": " + string.Join(" ", Chromosome);
+      //return string.Join(" ", Chromosome);
+      return Fitness + ": " + string.Join(" ", Chromosome);
     }
   }
 }
