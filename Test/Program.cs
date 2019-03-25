@@ -34,7 +34,6 @@ namespace Test
       nQueen = new NQueenGA(8)
       {
         PopulationSize = 100,
-        AllowDuplicates = false,
         //SelectionMethod = new GALib.Selection.TruncationSelection(),
         SelectionMethod = new GALib.Selection.FitnessProportionateSelection()
         {
@@ -43,7 +42,7 @@ namespace Test
         },
         CrossoverMethod = new GALib.Crossover.PartiallyMappedCrossover()
         {
-          ProduceTwoChildren = false
+          ProduceTwoChildren = true
         },
         MutationMethod = new GALib.Mutation.NoMutation()
       };

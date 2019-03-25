@@ -12,8 +12,9 @@ namespace GALib
     public int PopulationSize { get; set; } = 100;
     public List<IGenotype> Population { get; private set; } = null;
 
-    public bool AllowDuplicates { get; set; } = false;
-    public int MaxRetriesForDuplicates { get; set; } = 100; // This is used to prevent infinite loops
+    public bool AllowDuplicates { get; private set; }
+    public int MaxRetriesForDuplicates { get; private set; }
+
     public bool PreserveParents { get; set; } = false; // aka elitism
 
     public GenotypeFactory.CreateGenotype<Gene> CreateMethod { get; private set; } = null;
@@ -23,12 +24,25 @@ namespace GALib
 
     public abstract IGenotype GenerateRandomMember();
     public abstract double FitnessFunction(Gene[] geneSequence, out bool solutionFound);
-    
+
     /// <summary>
     /// Constructor
     /// </summary>
-    public GeneticAlgorithm()
+    public GeneticAlgorithm(bool allowDuplicates, int maxRetriesForDuplicates = 100)
     {
+      AllowDuplicates = allowDuplicates;
+      MaxRetriesForDuplicates = maxRetriesForDuplicates;
+
+      //if (allowDuplicates)
+      //{
+      //  Population = new List<IGenotype>();
+      //  MaxRetriesForDuplicates = -1;
+      //}
+      //else
+      //{
+      //  Population = new SmartHashSet(maxRetriesForDuplicates);
+      //  MaxRetriesForDuplicates = maxRetriesForDuplicates;
+      //}
     }
 
     /// <summary>
@@ -45,7 +59,6 @@ namespace GALib
       IGenotype child;
       double fitness;
       bool solutionFound, mutated;
-      int duplicateRetryCount;
 
       ParameterCheck();
 
@@ -55,7 +68,7 @@ namespace GALib
       if (AllowDuplicates)
         nextPopulation = new List<IGenotype>(PopulationSize);
       else
-        nextPopulation = new HashSet<IGenotype>();
+        nextPopulation = new SafeHashSet(MaxRetriesForDuplicates);
 
       if (PreserveParents && AllowDuplicates)
         preservedParents = new HashSet<IGenotype>();
@@ -63,7 +76,6 @@ namespace GALib
         preservedParents = null;
 
       solutionFound = false;
-      duplicateRetryCount = 0;
 
       for (int generation = 0; generation < numGenerations; generation++)
       {
@@ -112,15 +124,7 @@ namespace GALib
             // Instantiate child
             child = CreateMethod(children[i], fitness);
 
-            if (AllowDuplicates)
-              nextPopulation.Add(child);
-            else if (((HashSet<IGenotype>)nextPopulation).Add(child) == false)
-              if (++duplicateRetryCount > MaxRetriesForDuplicates)
-                throw new Exception("Reached the maximum number of retry attempts to generate a unique child");
-              else
-                continue;
-
-            duplicateRetryCount = 0;
+            nextPopulation.Add(child);
           }
           
           if (solutionFound)
@@ -163,32 +167,17 @@ namespace GALib
     /// </summary>
     private void InitializePopulation()
     {
-      int retryCount;
       ICollection<IGenotype> population;
-      IGenotype member;
 
       if (AllowDuplicates)
         population = new List<IGenotype>(PopulationSize);
       else
-        population = new HashSet<IGenotype>();
-
-      retryCount = 0;
+        population = new SafeHashSet(MaxRetriesForDuplicates);
 
       while (population.Count < PopulationSize)
-      {
-        member = GenerateRandomMember();
+        population.Add(GenerateRandomMember());
 
-        if(AllowDuplicates)
-          population.Add(member);
-        else if (((HashSet<IGenotype>)population).Add(member) == false)
-          if (++retryCount > MaxRetriesForDuplicates)
-            throw new Exception("Reached the maximum number of retry attempts to generate a unique random population member");
-          else
-            continue;
-
-        retryCount = 0;
-      }
-
+      // TODO this can be removed if Population is converted to ICollection<IGenotype>
       if (AllowDuplicates)
         Population = (List<IGenotype>)population;
       else

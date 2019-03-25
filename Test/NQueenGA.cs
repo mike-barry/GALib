@@ -15,7 +15,7 @@ namespace Test
     /// </summary>
     /// <param name="numQueens"></param>
     public NQueenGA(int numQueens) :
-      base()
+      base(false, 100)
     {
       NumQueens = numQueens;
       BestFitness = 0;

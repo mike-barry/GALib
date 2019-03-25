@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Crossover\OrderCrossover.cs" />
+    <Compile Include="SafeHashSet.cs" />
     <Compile Include="GenotypeFactory.cs" />
     <Compile Include="IGenotype.cs" />
     <Compile Include="Crossover\CrossoverMethod.cs" />
