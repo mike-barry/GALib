@@ -8,11 +8,13 @@ using System.Threading.Tasks;
 namespace GALib
 {
   /// <summary>
-  /// A simple wrapper for HashSet that keeps track of the number of consecutive Adds where the
-  /// item is already present.  If too many occur consecutively, an Exception is thrown.  The
-  /// purpose of this is to prevent infinite loops.
+  /// A simple wrapper for HashSet that keeps track of the number of consecutive duplicates
+  /// that have been attempted to be added.  If too many occur consecutively, an 
+  /// <see cref="Exception"/> is thrown.  The purpose of this is to prevent infinite loops.
   /// 
   /// The underlying HashSet can be accessed using the <see cref="Instance"/> property.
+  /// 
+  /// TODO: Make generic
   /// </summary>
   public class SafeHashSet : ICollection<IGenotype>
   {
@@ -57,10 +59,13 @@ namespace GALib
     /// <exception cref="Exception">Too many consecutive duplicates added to CustomHashSet</exception>
     public void Add(IGenotype item)
     {
-      if (Instance.Add(item) == false && ++RetryCount > MaxAddRetries)
-        throw new Exception("Too many consecutive duplicates added to CustomHashSet");
-
-      RetryCount = 0;
+      if (Instance.Add(item) == false)
+      {
+        if (++RetryCount > MaxAddRetries)
+          throw new Exception("Too many consecutive duplicates added to CustomHashSet");
+      }
+      else
+        RetryCount = 0;
     }
 
     /// <summary>
