@@ -87,7 +87,7 @@ namespace GALib.Crossover
 
           childB[i] = parentB[i];
           while (mapB.ContainsKey(childB[i]))
-            childB[i] = mapA[childB[i]];
+            childB[i] = mapB[childB[i]];
         }
 
         for (int i = stop; i < length; i++)
