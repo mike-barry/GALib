@@ -34,12 +34,12 @@ namespace Test
       nQueen = new NQueenGA(8)
       {
         PopulationSize = 100,
-        //SelectionMethod = new GALib.Selection.TruncationSelection(),
-        SelectionMethod = new GALib.Selection.FitnessProportionateSelection()
-        {
-          AllowDuplicates = false,
-          UseStochasticAcceptance = true
-        },
+        SelectionMethod = new GALib.Selection.TruncationSelection(),
+        //SelectionMethod = new GALib.Selection.FitnessProportionateSelection()
+        //{
+        //  AllowDuplicates = false,
+        //  UseStochasticAcceptance = true
+        //},
         CrossoverMethod = new GALib.Crossover.PartiallyMappedCrossover()
         {
           ProduceTwoChildren = true
@@ -77,7 +77,12 @@ namespace Test
       hashSet.Add(b);
     }
 
-
+    /// <summary>
+    /// 
+    /// </summary>
+    static void Test()
+    {
+    }
 
   }
 }

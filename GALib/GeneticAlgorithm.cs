@@ -6,6 +6,13 @@ using System.Threading.Tasks;
 
 namespace GALib
 {
+  /// <summary>
+  /// 
+  /// </summary>
+  /// <typeparam name="Gene">The type of the ene.</typeparam>
+  /// <remarks>
+  /// TODO change Population to be an ICollection -- it will simplify code but will require code changes in SelectionMethod classes
+  /// </remarks>
   public abstract class GeneticAlgorithm<Gene>
     where Gene : IComparable
   {
@@ -137,11 +144,8 @@ namespace GALib
           Population = nextPopulation.ToList();
       }
 
-      // Sort the population based on fitness (higher fitness will be at end of list)
-      Population.Sort((a, b) => a.Fitness.CompareTo(b.Fitness));
-
-      // Return the individual with the highest score
-      return (Genotype<Gene>)Population[Population.Count];
+      // Return the individual with the highest fitness
+      return (Genotype<Gene>)Population.OrderBy(x => x.Fitness).Last();
     }
 
     /// <summary>
