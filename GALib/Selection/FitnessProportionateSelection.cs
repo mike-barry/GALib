@@ -51,10 +51,12 @@ namespace GALib.Selection
     public override List<IGenotype> DoSelection()
     {
       IGenotype selected;
-      List<IGenotype> selection;
+      ICollection<IGenotype> selection;
 
-      selection = new List<IGenotype>(SelectionCount);
-      ResetDuplicatesHandling();
+      if (AllowDuplicates)
+        selection = new List<IGenotype>(SelectionCount);
+      else
+        selection = new SafeHashSet<IGenotype>(MaxRetriesForDuplicates);
 
       while (selection.Count < SelectionCount)
       {
@@ -63,11 +65,13 @@ namespace GALib.Selection
         else
           selected = SimpleSelect(Population, fitnessMetric);
 
-        if (HandleDuplicates(selected))
-          selection.Add(selected);
+        selection.Add(selected);
       }
 
-      return selection;
+      if (AllowDuplicates)
+        return (List<IGenotype>)selection;
+      else
+        return selection.ToList();
     }
 
     /// <summary>

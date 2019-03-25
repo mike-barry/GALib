@@ -37,12 +37,9 @@ namespace GALib.Selection
       List<IGenotype> truncatedPopulation;
       int count;
 
-      // Sort the population based on fitness (higher fitness will be at end of list)
-      population.Sort((a, b) => a.Fitness.CompareTo(b.Fitness));
-
-      // Truncate the population to the desired size
+      // Truncate the population to the desired size, prioritizing the highest fitness individuals
       count = population.Count - (int)(population.Count * TruncationPercent);
-      truncatedPopulation = population.Skip(count).ToList(); // TODO test
+      truncatedPopulation = population.OrderBy(f => f.Fitness).Skip(count).ToList();
 
       // Initialize with the truncated population
       base.Initialize(truncatedPopulation);
@@ -54,21 +51,24 @@ namespace GALib.Selection
     /// <returns></returns>
     public override List<IGenotype> DoSelection()
     {
-      List<IGenotype> selection;
+      ICollection<IGenotype> selection;
       int index;
 
-      selection = new List<IGenotype>(SelectionCount);
-      ResetDuplicatesHandling();
-      
+      if (AllowDuplicates)
+        selection = new List<IGenotype>(SelectionCount);
+      else
+        selection = new SafeHashSet<IGenotype>(MaxRetriesForDuplicates);
+
       while (selection.Count < SelectionCount)
       {
         index = Tools.StaticRandom.Next(0, Population.Count);
-
-        if (HandleDuplicates(Population[index])) 
-          selection.Add(Population[index]);
+        selection.Add(Population[index]);
       }
 
-      return selection;
+      if (AllowDuplicates)
+        return (List<IGenotype>)selection;
+      else
+        return selection.ToList();
     }
 
 
