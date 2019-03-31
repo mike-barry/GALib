@@ -1,5 +1,0 @@
-﻿Notes:
-
-Merge ProblemDefinition and BasicGA ???
-
-
