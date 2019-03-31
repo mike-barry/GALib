@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using GALib;
+using GALib.Util;
 
 namespace Test
 {
@@ -9,6 +10,8 @@ namespace Test
     public int NumQueens { get; private set; }
     public List<int> GeneDomain { get; private set; } = new List<int>();
     public int BestFitness { get; protected set; }
+
+    public IRescale RescaleMethod { get; set; } = null;
 
     /// <summary>
     /// 
@@ -62,7 +65,16 @@ namespace Test
 
       solutionFound = (conflicts == 0);
 
-      return BestFitness - conflicts;
+
+      double retVal;
+
+      if (RescaleMethod == null)
+        retVal = BestFitness - conflicts;
+      else
+        retVal = RescaleMethod.Rescale(BestFitness - conflicts);
+
+      return retVal;
     }
+
   }
 }

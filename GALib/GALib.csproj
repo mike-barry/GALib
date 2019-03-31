@@ -68,12 +68,12 @@
     <Compile Include="Selection\FitnessProportionateSelection.cs" />
     <Compile Include="Selection\SelectionMethod.cs" />
     <Compile Include="Tools.cs" />
+    <Compile Include="Util\IRescale.cs" />
+    <Compile Include="Util\ExponentialRescale.cs" />
+    <Compile Include="Util\PowerRescale.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="notes.txt" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using GALib;
+using GALib.Util;
 
 namespace Test
 {
@@ -32,20 +33,20 @@ namespace Test
 
       startTime = DateTime.Now;
 
-      numQueens = 500;
+      numQueens = 100;
 
       nQueen = new NQueenGA(numQueens, true, numQueens * 2)
       {
         PopulationSize = numQueens,// * 10,
         PreserveElitePercent = 0.50,
-        SelectionMethod = new GALib.Selection.TruncationSelection()
-        {
-          TruncationPercent = 0.10
-        },
-        //SelectionMethod = new GALib.Selection.FitnessProportionateSelection()
+        //SelectionMethod = new GALib.Selection.TruncationSelection()
         //{
-        //  UseStochasticAcceptance = false
+        //  TruncationPercent = 0.10
         //},
+        SelectionMethod = new GALib.Selection.FitnessProportionateSelection()
+        {
+          UseStochasticAcceptance = false
+        },
         CrossoverMethod = new GALib.Crossover.PartiallyMappedCrossover()
         {
           ProduceTwoChildren = true
@@ -53,12 +54,18 @@ namespace Test
         //MutationMethod = new GALib.Mutation.NoMutation()
         MutationMethod = new GALib.Mutation.SwapMutation()
         {
-          MutationChance = 0.90,
+          MutationChance = 0.10,
           MaxNumberOfSwaps = 1//numQueens / 10
         }
       };
 
-      Console.WriteLine("Optimal = " + nQueen.BestFitness);
+      //nQueen.RescaleMethod = new PowerRescale(1.1);
+      //nQueen.RescaleMethod = new ExponentialRescale(3.0 / nQueen.BestFitness);
+
+      if ( nQueen.RescaleMethod == null )
+        Console.WriteLine("Optimal = " + nQueen.BestFitness);
+      else
+        Console.WriteLine("Optimal = " + nQueen.RescaleMethod.Rescale(nQueen.BestFitness));
 
       IGenotype result = nQueen.Run(int.MaxValue);
 
