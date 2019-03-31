@@ -89,6 +89,9 @@ namespace GALib
             // Calculate fitness of child
             fitness = FitnessFunction(children[i], out solutionFound);
 
+            if (solutionFound)
+              break;
+
             // Perform mutation (but skip if solution has been found)
             mutated = solutionFound ? false : MutationMethod.DoMutation<Gene>(ref children[i]);
 
@@ -103,8 +106,9 @@ namespace GALib
             {
               nextPopulation.Add(child);
             }
-            catch (SafeHashSetException ex)
+            catch (SafeHashSetException)
             {
+              Console.WriteLine("Duplicate max retry exception occurred");
               continue; // TODO need to do something more intelligent here
             }
           }
