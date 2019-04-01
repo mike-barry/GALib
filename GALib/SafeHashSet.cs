@@ -20,8 +20,9 @@ namespace GALib
     /// The maximum number of consecutive duplicates before an exception is thrown.
     /// </summary>
     /// <param name="MaxAddRetries"></param>
-    public SafeHashSet(int MaxAddRetries)
+    public SafeHashSet(int maxAddRetries)
     {
+      MaxAddRetries = maxAddRetries;
       Instance = new HashSet<T>();
     }
 
