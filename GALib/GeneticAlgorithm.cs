@@ -10,11 +10,24 @@ namespace GALib
   /// 
   /// </summary>
   /// <typeparam name="Gene">The type of the Gene.</typeparam>
-  public abstract class GeneticAlgorithm<Gene>
+  public abstract class GeneticAlgorithm<Gene> : IGeneticAlgorithm
     where Gene : IComparable
   {
+    #region [ Events ]
+
+    public delegate void NewGenerationDelegate(IGeneticAlgorithm ga);
+    public NewGenerationDelegate NewGeneration;
+
+    #endregion 
+
+    public bool ConsoleOutput { get; set; } = false;
+
     public int PopulationSize { get; set; } = 100;
     public List<IGenotype> Population { get; private set; } = null;
+
+    public int GenerationNumber { get; private set; } = 0;
+    public bool Converged { get; private set; } = false;
+    public bool SolutionFound { get; private set; } = false;
 
     public bool AllowDuplicates { get; private set; }
     public int MaxRetriesForDuplicates { get; private set; }
@@ -50,7 +63,7 @@ namespace GALib
       Gene[][] children;
       IGenotype child;
       double fitness;
-      bool solutionFound, mutated;
+      bool mutated, solutionFound;
       int eliteSkip;
 
       ParameterCheck();
@@ -64,9 +77,10 @@ namespace GALib
         nextPopulation = new SafeHashSet<IGenotype>(MaxRetriesForDuplicates);
 
       eliteSkip = PopulationSize - (int)(PreserveElitePercent * PopulationSize);
-      solutionFound = false;
+      SolutionFound = solutionFound = false;
+      Converged = false;
 
-      for (int generation = 0; generation < numGenerations; generation++)
+      for (GenerationNumber = 0; GenerationNumber < numGenerations; GenerationNumber++)
       {
         nextPopulation.Clear();
 
@@ -78,7 +92,17 @@ namespace GALib
 
         while (nextPopulation.Count < PopulationSize)
         {
-          parents = SelectionMethod.DoSelection();
+          try
+          {
+            parents = SelectionMethod.DoSelection();
+          }
+          catch (SafeHashSetException)
+          {
+            if (ConsoleOutput)
+              Console.WriteLine("Convergence detected"); 
+            Converged = true;
+            break;
+          }
 
           // Perform crossover
           children = CrossoverMethod.DoCrossover<Gene>(parents);
@@ -89,11 +113,8 @@ namespace GALib
             // Calculate fitness of child
             fitness = FitnessFunction(children[i], out solutionFound);
 
-            if (solutionFound)
-              break;
-
             // Perform mutation (but skip if solution has been found)
-            mutated = solutionFound ? false : MutationMethod.DoMutation<Gene>(ref children[i]);
+            mutated = solutionFound ? false : MutationMethod.DoMutation<Gene>(ref children[i]); // TODO return mutation and use only if better fitness??? Make a parameter to turn on/off
 
             // Recalculate fitness if mutation occurred
             if (mutated) 
@@ -105,25 +126,33 @@ namespace GALib
             try
             {
               nextPopulation.Add(child);
+
+              if (solutionFound)
+                break;
             }
             catch (SafeHashSetException)
             {
-              Console.WriteLine("Duplicate max retry exception occurred");
+              if (ConsoleOutput)
+                Console.WriteLine("Convergence detected");
               continue; // TODO need to do something more intelligent here
             }
           }
           
-          if (solutionFound)
+          if (solutionFound || Converged)
             break;
         }
 
-        Console.WriteLine("Gen " + generation + ": " + Population.OrderBy(x => x.Fitness).Last().Fitness);
-
         Population = nextPopulation.ToList();
+        NewGeneration(this);
 
-        if (solutionFound)
+        //if (ConsoleOutput)
+        //  Console.WriteLine("Gen " + GenerationNumber + ": " + 1 / Population.OrderBy(x => x.Fitness).Last().Fitness);
+
+        if (solutionFound || Converged)
           break;
       }
+
+      SolutionFound = solutionFound;
 
       // Return the individual with the highest fitness
       return (Genotype<Gene>)Population.OrderBy(x => x.Fitness).Last();
