@@ -23,25 +23,25 @@ namespace GALib.Selection
     /// <param name="population">The population</param>
     public override void Initialize(List<IGenotype> population)
     {
-      if (CheckNegativeFitness(population))
+      base.Initialize(population);
+
+      if (CheckNegativeFitness(Population))
         throw new ArgumentException("Population contains an individual with negative fitness");
 
       if (UseStochasticAcceptance)
       {
         // Find the maximum fitness of the population
         fitnessMetric = double.NegativeInfinity;
-        foreach (IGenotype individual in population)
+        foreach (IGenotype individual in Population)
           fitnessMetric = Math.Max(fitnessMetric, individual.Fitness);
       }
       else
       {
         // Calculate the sum of all the fitnesses in the population
         fitnessMetric = 0;
-        foreach (IGenotype individual in population)
+        foreach (IGenotype individual in Population)
           fitnessMetric += individual.Fitness;
       }
-
-      base.Initialize(population);
     }
 
     /// <summary>
