@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Crossover\OrderCrossover.cs" />
+    <Compile Include="IGeneticAlgorithm.cs" />
     <Compile Include="Mutation\SwapMutation.cs" />
     <Compile Include="SafeHashSet.cs" />
     <Compile Include="GenotypeFactory.cs" />
@@ -64,7 +65,7 @@
     <Compile Include="SafeHashSetException.cs" />
     <Compile Include="Selection\StochasticUniversalSamplingSelection.cs" />
     <Compile Include="Selection\TournamentSelection.cs" />
-    <Compile Include="Selection\TruncationSelection.cs" />
+    <Compile Include="Selection\RandomSelection.cs" />
     <Compile Include="Selection\FitnessProportionateSelection.cs" />
     <Compile Include="Selection\SelectionMethod.cs" />
     <Compile Include="Tools.cs" />

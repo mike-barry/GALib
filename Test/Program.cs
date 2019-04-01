@@ -19,7 +19,65 @@ namespace Test
     {
       //HashSetTest();
       //GALib.Selection.FitnessProportionateSelection.Test();
-      NQueen();
+      //NQueen();
+      TravelingSalesman();
+    }
+
+    static void TravelingSalesman()
+    {
+      DateTime startTime, stopTime;
+      int numLocations, numRuns;
+      Random rand;
+      List<TravelingSalesmanGA.Location> locations;
+
+      numRuns = 1;
+      numLocations = 100;
+
+      locations = new List<TravelingSalesmanGA.Location>(numLocations);
+      rand = new Random(421784);
+
+      for (int i = 0; i < numLocations; i++)
+        locations.Add(new TravelingSalesmanGA.Location() { Name = "Location #" + i, X = rand.NextDouble() * 100, Y = rand.NextDouble() * 100 });
+
+      startTime = DateTime.Now;
+
+      for (int run = 0; run < numRuns; run++)
+      {
+        TravelingSalesmanGA travel = new TravelingSalesmanGA(locations, false, numLocations * 100)
+        {
+          ConsoleOutput = true,
+          PopulationSize = 100, //numLocations,
+          PreserveElitePercent = 0.10,
+          SelectionMethod = new GALib.Selection.FitnessProportionateSelection()
+          {
+            AllowDuplicates = false,
+            MaxRetriesForDuplicates = numLocations * 100,
+            UseStochasticAcceptance = false,
+            TruncateBeforeSelect = true,
+            TruncationPercent = 0.25
+          },
+          CrossoverMethod = new GALib.Crossover.PartiallyMappedCrossover()
+          {
+            ProduceTwoChildren = true
+          },
+          MutationMethod = new GALib.Mutation.SwapMutation()
+          {
+            MutationChance = 0.1,
+            MaxNumberOfSwaps = 1
+          }
+        };
+
+        travel.Run(10000);
+      }
+
+      stopTime = DateTime.Now;
+
+      Console.WriteLine();
+      Console.WriteLine("Average Duration = " + (stopTime - startTime).TotalSeconds / numRuns + " seconds");
+      Console.WriteLine("Total Duration = " + (stopTime - startTime).TotalSeconds + " seconds");
+      Console.WriteLine();
+      Console.WriteLine("Press any key to quit...");
+      Console.ReadKey();
     }
 
     /// <summary>
@@ -29,55 +87,79 @@ namespace Test
     {
       DateTime startTime, stopTime;
       NQueenGA nQueen;
-      int numQueens;
+      int numQueens, numRuns;
+      List<int> numGenerations;
+
+      numRuns = 1;
+      numGenerations = new List<int>(numRuns);
 
       startTime = DateTime.Now;
 
       numQueens = 100;
 
-      nQueen = new NQueenGA(numQueens, true, numQueens * 2)
+      for (int run = 0; run < numRuns; run++)
       {
-        PopulationSize = numQueens,// * 10,
-        PreserveElitePercent = 0.50,
-        //SelectionMethod = new GALib.Selection.TruncationSelection()
-        //{
-        //  TruncationPercent = 0.10
-        //},
-        SelectionMethod = new GALib.Selection.FitnessProportionateSelection()
+        nQueen = new NQueenGA(numQueens, true, numQueens * 100)
         {
-          UseStochasticAcceptance = false
-        },
-        CrossoverMethod = new GALib.Crossover.PartiallyMappedCrossover()
+          ConsoleOutput = true,
+          PopulationSize = numQueens,// * 10,
+          PreserveElitePercent = 0.25,
+          //SelectionMethod = new GALib.Selection.RandomSelection()
+          //{
+          //  TruncateBeforeSelect = true,
+          //  TruncationPercent = 0.25
+          //},
+          SelectionMethod = new GALib.Selection.FitnessProportionateSelection()
+          {
+            AllowDuplicates = true,
+            MaxRetriesForDuplicates = numQueens * 100,
+            UseStochasticAcceptance = false,
+            TruncateBeforeSelect = true,
+            TruncationPercent = 0.25
+          },
+          CrossoverMethod = new GALib.Crossover.PartiallyMappedCrossover()
+          {
+            ProduceTwoChildren = true
+          },
+          //MutationMethod = new GALib.Mutation.NoMutation()
+          MutationMethod = new GALib.Mutation.SwapMutation()
+          {
+            MutationChance = 0.10,
+            MaxNumberOfSwaps = 1//numQueens / 50
+          }
+        };
+
+        //nQueen.RescaleMethod = new PowerRescale(1.3);
+        //nQueen.RescaleMethod = new ExponentialRescale(0.5);
+
+        if (nQueen.RescaleMethod == null)
+          Console.WriteLine("Optimal = " + nQueen.BestFitness);
+        else
+          Console.WriteLine("Optimal = " + nQueen.RescaleMethod.Rescale(nQueen.BestFitness));
+
+        IGenotype result = nQueen.Run(int.MaxValue);
+
+        //Console.WriteLine("Optimal = " + nQueen.BestFitness);
+        //Console.WriteLine("Result  = " + result.Fitness);
+
+        if (nQueen.SolutionFound)
         {
-          ProduceTwoChildren = true
-        },
-        //MutationMethod = new GALib.Mutation.NoMutation()
-        MutationMethod = new GALib.Mutation.SwapMutation()
-        {
-          MutationChance = 0.10,
-          MaxNumberOfSwaps = 1//numQueens / 10
+          numGenerations.Add(nQueen.GenerationNumber);
+          Console.WriteLine("# of generations = " + nQueen.GenerationNumber);
         }
-      };
-
-      //nQueen.RescaleMethod = new PowerRescale(1.1);
-      //nQueen.RescaleMethod = new ExponentialRescale(3.0 / nQueen.BestFitness);
-
-      if ( nQueen.RescaleMethod == null )
-        Console.WriteLine("Optimal = " + nQueen.BestFitness);
-      else
-        Console.WriteLine("Optimal = " + nQueen.RescaleMethod.Rescale(nQueen.BestFitness));
-
-      IGenotype result = nQueen.Run(int.MaxValue);
+        else
+          Console.WriteLine("# of generations = " + nQueen.GenerationNumber + " PREMATURELY CONVERGED");
+      }
 
       stopTime = DateTime.Now;
 
-      Console.WriteLine("Optimal = " + nQueen.BestFitness);
-      Console.WriteLine("Result  = " + result.Fitness);
+      Console.WriteLine("Median = " + numGenerations.OrderBy(x => x).Skip(numGenerations.Count / 2).Take(1).First());
 
       Console.WriteLine();
       //Console.WriteLine("Solution found for " + nQueen.NumQueens + "-queen problem");
       //Console.WriteLine(nQueen.Population[0]);
-      Console.WriteLine("Duration = " + (stopTime - startTime).TotalSeconds + " seconds");
+      Console.WriteLine("Average Duration = " + (stopTime - startTime).TotalSeconds / numRuns + " seconds");
+      Console.WriteLine("Total Duration = " + (stopTime - startTime).TotalSeconds + " seconds");
       Console.WriteLine();
       Console.WriteLine("Press any key to quit...");
       Console.ReadKey();

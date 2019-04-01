@@ -11,8 +11,8 @@ namespace GALib
     /// <summary>
     /// A static instance of Random
     /// </summary>
-    public static Random StaticRandom { get; } = new Random(421784);
-    //public static Random StaticRandom { get; private set; } = new Random();
+    //public static Random StaticRandom { get; } = new Random(421784);
+    public static Random StaticRandom { get; private set; } = new Random();
 
     /// <summary>
     /// Performs the Fisher-Yates shuffle on a list
