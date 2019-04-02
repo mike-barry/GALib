@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Crossover\OrderCrossover.cs" />
+    <Compile Include="IConstructorParams.cs" />
     <Compile Include="IGeneticAlgorithm.cs" />
     <Compile Include="Mutation\SwapMutation.cs" />
     <Compile Include="SafeHashSet.cs" />
@@ -68,6 +69,9 @@
     <Compile Include="Selection\RandomSelection.cs" />
     <Compile Include="Selection\FitnessProportionateSelection.cs" />
     <Compile Include="Selection\SelectionMethod.cs" />
+    <Compile Include="Termination\SolutionFound.cs" />
+    <Compile Include="Termination\GenerationLimit.cs" />
+    <Compile Include="Termination\TerminationMethod.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="Util\IRescale.cs" />
     <Compile Include="Util\ExponentialRescale.cs" />

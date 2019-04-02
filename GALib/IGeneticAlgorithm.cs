@@ -8,9 +8,14 @@ namespace GALib
 {
   public interface IGeneticAlgorithm
   {
+    Action FinishedGeneration { get; }
+    Action TerminationReached { get; }
+
     int GenerationNumber { get; }
     bool Converged { get; }
     bool SolutionFound { get; }
     List<IGenotype> Population { get; }
+
+    void Run();
   }
 }

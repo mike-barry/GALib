@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,34 +14,13 @@ namespace GALib
   public abstract class GeneticAlgorithm<Gene> : IGeneticAlgorithm
     where Gene : IComparable
   {
-    #region [ Events ]
+    #region [ Members ]
 
-    public delegate void NewGenerationDelegate(IGeneticAlgorithm ga);
-    public NewGenerationDelegate NewGeneration;
+    private double preserveElitePercent = 0.1;
 
-    #endregion 
+    #endregion
 
-    public bool ConsoleOutput { get; set; } = false;
-
-    public int PopulationSize { get; set; } = 100;
-    public List<IGenotype> Population { get; private set; } = null;
-
-    public int GenerationNumber { get; private set; } = 0;
-    public bool Converged { get; private set; } = false;
-    public bool SolutionFound { get; private set; } = false;
-
-    public bool AllowDuplicates { get; private set; }
-    public int MaxRetriesForDuplicates { get; private set; }
-
-    public double PreserveElitePercent { get; set; } = 0; // TODO limit to between 0 and 1
-
-    public GenotypeFactory.CreateGenotype<Gene> CreateMethod { get; private set; } = null;
-    public Selection.SelectionMethod SelectionMethod { get; set; } = null;
-    public Crossover.CrossoverMethod CrossoverMethod { get; set; } = null;
-    public Mutation.MutationMethod MutationMethod { get; set; } = null;
-
-    public abstract IGenotype GenerateRandomMember();
-    public abstract double FitnessFunction(Gene[] geneSequence, out bool solutionFound);
+    #region [ Constructor ]
 
     /// <summary>
     /// Constructor
@@ -51,12 +31,94 @@ namespace GALib
       MaxRetriesForDuplicates = maxRetriesForDuplicates;
     }
 
+    #endregion
+
+    #region [ Properties ]
+
+    [Browsable(false)]
+    public Action FinishedGeneration { get; set; } = null;
+
+    [Browsable(false)]
+    public Action TerminationReached { get; set; } = null;
+
+    [Category("Parameter"), DisplayName("Population Size")]
+    public int PopulationSize { get; set; } = 100;
+
+    [Browsable(false)]
+    public List<IGenotype> Population { get; private set; } = null;
+
+    [Category("Status"), DisplayName("Current Generation #")]
+    public int GenerationNumber { get; private set; } = 0;
+
+    [Category("Status")]
+    public bool Converged { get; private set; } = false;
+
+    [Category("Status")]
+    public bool Terminated { get; private set; } = false;
+
+    [Category("Status"), DisplayName("Solution Found")]
+    public bool SolutionFound { get; private set; } = false;
+
+    [Category("Setup"), DisplayName("Allow Duplicate Individuals")]
+    public bool AllowDuplicates { get; private set; }
+
+    [Category("Setup"), DisplayName("Max Duplicate Collisions")]
+    public int MaxRetriesForDuplicates { get; private set; }
+
+    [Category("Parameter"), DisplayName("Elitism Percent"), Description("The percent of elites to preserve between generations")]
+    public double PreserveElitePercent
+    {
+      get
+      {
+        return preserveElitePercent;
+      }
+      set
+      {
+        if (value < 0)
+          preserveElitePercent = 0;
+        else if (value > 1)
+          preserveElitePercent = 1;
+        else
+          preserveElitePercent = value;
+      }
+    }
+
+    [Category("Status"), DisplayName("Best Solution (Current)")]
+    public IGenotype BestCurrent { get; private set; } = null;
+
+    [Category("Status"), DisplayName("Best Solution (Initial)")]
+    public IGenotype BestInitial { get; private set; } = null;
+
+    [Browsable(false)]
+    public GenotypeFactory.CreateGenotype<Gene> CreateMethod { get; private set; } = null;
+
+    [Browsable(false)]
+    public Selection.SelectionMethod SelectionMethod { get; set; } = null;
+
+    [Browsable(false)]
+    public Crossover.CrossoverMethod CrossoverMethod { get; set; } = null;
+
+    [Browsable(false)]
+    public Mutation.MutationMethod MutationMethod { get; set; } = null;
+
+    [Browsable(false)]
+    public List<Termination.TerminationMethod> TerminationMethods { get; private set; } = new List<Termination.TerminationMethod>();
+
+    #endregion
+
+    #region [ Abstract Methods ]
+
+    public abstract IGenotype GenerateRandomMember();
+    public abstract double FitnessFunction(Gene[] geneSequence, out bool solutionFound);
+
+    #endregion
+
     /// <summary>
     /// Runs the genetic algorithm for the specified number of generations
     /// </summary>
     /// <param name="numGenerations">The number of generations</param>
     /// <returns></returns>
-    public IGenotype Run(uint numGenerations)
+    public void Run()
     {
       ICollection<IGenotype> nextPopulation;
       List<IGenotype> parents;
@@ -64,7 +126,6 @@ namespace GALib
       IGenotype child;
       double fitness;
       bool mutated, solutionFound;
-      int eliteSkip;
 
       ParameterCheck();
 
@@ -76,86 +137,76 @@ namespace GALib
       else
         nextPopulation = new SafeHashSet<IGenotype>(MaxRetriesForDuplicates);
 
-      eliteSkip = PopulationSize - (int)(PreserveElitePercent * PopulationSize);
-      SolutionFound = solutionFound = false;
-      Converged = false;
+      solutionFound = false;
 
-      for (GenerationNumber = 0; GenerationNumber < numGenerations; GenerationNumber++)
+      if( PreserveElitePercent > 0)
+        foreach (IGenotype individual in Population.Take((int)(PreserveElitePercent * PopulationSize)).ToList())
+          nextPopulation.Add(individual);
+
+      SelectionMethod.Initialize(Population);
+
+      while (nextPopulation.Count < PopulationSize)
       {
-        nextPopulation.Clear();
-
-        if( PreserveElitePercent > 0)
-          foreach (IGenotype individual in Population.OrderBy(x => x.Fitness).Skip(eliteSkip).ToList())
-            nextPopulation.Add(individual);
-
-        SelectionMethod.Initialize(Population);
-
-        while (nextPopulation.Count < PopulationSize)
+        try
         {
+          parents = SelectionMethod.DoSelection();
+        }
+        catch (SafeHashSetException)
+        {
+          Converged = true;
+          break;
+        }
+
+        // Perform crossover
+        children = CrossoverMethod.DoCrossover<Gene>(parents);
+
+        // Iterate through each child produced by crossover
+        for ( int i = 0; i < children.Length; i++ )
+        {
+          // Calculate fitness of child
+          fitness = FitnessFunction(children[i], out solutionFound);
+
+          // Perform mutation (but skip if solution has been found)
+          mutated = solutionFound ? false : MutationMethod.DoMutation<Gene>(ref children[i]); // TODO return mutation and use only if better fitness??? Make a parameter to turn on/off
+
+          // Recalculate fitness if mutation occurred
+          if (mutated) 
+            fitness = FitnessFunction(children[i], out solutionFound);
+
+          // Instantiate child
+          child = CreateMethod(children[i], fitness);
+
           try
           {
-            parents = SelectionMethod.DoSelection();
+            nextPopulation.Add(child);
+
+            if (solutionFound)
+              break;
           }
           catch (SafeHashSetException)
           {
-            if (ConsoleOutput)
-              Console.WriteLine("Convergence detected"); 
             Converged = true;
             break;
           }
-
-          // Perform crossover
-          children = CrossoverMethod.DoCrossover<Gene>(parents);
-
-          // Iterate through each child produced by crossover
-          for ( int i = 0; i < children.Length; i++ )
-          {
-            // Calculate fitness of child
-            fitness = FitnessFunction(children[i], out solutionFound);
-
-            // Perform mutation (but skip if solution has been found)
-            mutated = solutionFound ? false : MutationMethod.DoMutation<Gene>(ref children[i]); // TODO return mutation and use only if better fitness??? Make a parameter to turn on/off
-
-            // Recalculate fitness if mutation occurred
-            if (mutated) 
-              fitness = FitnessFunction(children[i], out solutionFound);
-
-            // Instantiate child
-            child = CreateMethod(children[i], fitness);
-
-            try
-            {
-              nextPopulation.Add(child);
-
-              if (solutionFound)
-                break;
-            }
-            catch (SafeHashSetException)
-            {
-              if (ConsoleOutput)
-                Console.WriteLine("Convergence detected");
-              continue; // TODO need to do something more intelligent here
-            }
-          }
-          
-          if (solutionFound || Converged)
-            break;
         }
-
-        Population = nextPopulation.ToList();
-        NewGeneration(this);
-
-        //if (ConsoleOutput)
-        //  Console.WriteLine("Gen " + GenerationNumber + ": " + 1 / Population.OrderBy(x => x.Fitness).Last().Fitness);
-
+          
         if (solutionFound || Converged)
           break;
       }
 
+      GenerationNumber++;
       SolutionFound = solutionFound;
+      Population = nextPopulation.OrderByDescending(x => x.Fitness).ToList();
+      BestCurrent = Population.First();
 
-      // Return the individual with the highest fitness
-      return (Genotype<Gene>)Population.OrderBy(x => x.Fitness).Last();
+      FinishedGeneration?.Invoke();
+
+      foreach ( Termination.TerminationMethod t in TerminationMethods )
+        if( t.CheckTermination(this) )
+        {
+          Terminated = true;
+          TerminationReached?.Invoke();
+        }
     }
 
     /// <summary>
@@ -172,8 +223,17 @@ namespace GALib
       if (MutationMethod is null)
         throw new Exception("No mutation method specified");
 
+      if (TerminationMethods.Count == 0)
+        throw new Exception("No termination method(s) specified");
+
       if (PopulationSize < 1)
         throw new Exception("Invalid population size");
+
+      if (SolutionFound)
+        throw new Exception("Solution already found");
+
+      if (Converged)
+        throw new Exception("GA has already converged");
     }
 
     /// <summary>
@@ -191,12 +251,10 @@ namespace GALib
       while (population.Count < PopulationSize)
         population.Add(GenerateRandomMember());
 
-      if (AllowDuplicates)
-        Population = (List<IGenotype>)population;
-      else
-        Population = population.ToList();
+      Population = population.OrderByDescending(x => x.Fitness).ToList();
+      BestInitial = Population.First();
 
-      CreateMethod = GenotypeFactory.GetCreateMethod<Gene>(Population[0].GetType());
+      CreateMethod = GenotypeFactory.GetCreateMethod<Gene>(BestInitial.GetType());
     }
   }
 }

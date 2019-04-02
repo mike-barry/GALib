@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-using System.IO;
+using System.ComponentModel;
 using System.Drawing;
 
 using GALib;
@@ -84,12 +83,10 @@ namespace Test
       genotypeLength = locations.Count - 2;
       geneDomain = Enumerable.Range(1, genotypeLength).ToList();
 
-      NewGeneration = HandleNewGeneration;
-
+      LocationCount = locations.Count;
 
       //TODO see performance of using pre-calculated distance
       //distances = new Dictionary<LocationPair, double>(locations.Count);
-
       //for (int i = 0; i < locations.Count; i++)
       //  for (int j = i; j < locations.Count; j++)
       //  {
@@ -102,6 +99,21 @@ namespace Test
 
     #endregion
 
+    #region [ Properties ]
+
+    [Category("Setup")]
+    public int LocationCount { get; private set; }
+
+    #endregion
+
+    #region [ Methods ]
+
+    /// <summary>
+    /// Returns the fitnesses of an individual
+    /// </summary>
+    /// <param name="geneSequence">The gene sequence.</param>
+    /// <param name="solutionFound">if set to <c>true</c> [solution found].</param>
+    /// <returns></returns>
     public override double FitnessFunction(int[] geneSequence, out bool solutionFound)
     {
       double cost;
@@ -128,6 +140,10 @@ namespace Test
       return 1 / cost;
     }
 
+    /// <summary>
+    /// Generates a random member.
+    /// </summary>
+    /// <returns></returns>
     public override IGenotype GenerateRandomMember()
     {
       int[] geneSequence;
@@ -141,44 +157,32 @@ namespace Test
       return new GenotypeGenericList<int>(geneSequence, fitness);
     }
 
-    private Genotype<int> tempLastBest = null; // TEMP
-    private int tempNumber = 0; // TEMP
-
     /// <summary>
-    /// Handles a new generation.
+    /// Draws the individual.
     /// </summary>
-    /// <param name="ga">The genetic algorithm instance.</param>
-    private void HandleNewGeneration(IGeneticAlgorithm ga)
+    /// <param name="individual">The individual.</param>
+    /// <returns></returns>
+    public Bitmap DrawIndividual(Genotype<int> individual)
     {
       int pad, scale, dotSize;
       Bitmap img;
       Graphics g;
       Font font;
       Pen blackPen, greenPen;
-      Genotype<int> individual;
       Location a, b;
-
-      individual = (Genotype<int>)Population.OrderBy(x => x.Fitness).Last();
-
-      Console.WriteLine("Gen " + GenerationNumber + ": " + 1 / individual.Fitness);
-
-      if (individual == tempLastBest)
-        return;
-      else
-        tempLastBest = individual;
 
       font = new Font(FontFamily.GenericSansSerif, 20);
       blackPen = new Pen(Color.Black, 2);
       greenPen = new Pen(Color.LightGreen, 2);
 
-      scale = 10;
+      scale = 5;
       pad = 5;
-      dotSize = 8;
+      dotSize = 5;
       img = new Bitmap(100 * scale + pad * 2, 100 * scale + pad * 2);
       g = Graphics.FromImage(img);
 
       g.FillRectangle(Brushes.White, 0, 0, 100 * scale + pad * 2, 100 * scale + pad * 2);
-      g.DrawString("#" + ga.GenerationNumber + " " + (1 / individual.Fitness).ToString("0.0000"), font, Brushes.Black, 0, 0);
+      g.DrawString("#" + GenerationNumber + " " + (1 / individual.Fitness).ToString("0.0000"), font, Brushes.Black, 0, 0);
 
       a = locations[0];
       b = locations[individual[0]];
@@ -196,11 +200,12 @@ namespace Test
       a = locations[individual[individual.Length - 1]];
       b = locations[0];
       g.DrawLine(blackPen, (float)a.X * scale + pad, (float)a.Y * scale + pad, (float)b.X * scale + pad, (float)b.Y * scale + pad);
-      g.FillEllipse(Brushes.Green, new RectangleF((float)b.X * scale + pad - dotSize, (float)b.Y * scale + pad - dotSize, dotSize * 2, dotSize * 2));
+      g.FillEllipse(Brushes.LightGreen, new RectangleF((float)b.X * scale + pad - dotSize, (float)b.Y * scale + pad - dotSize, dotSize * 2, dotSize * 2));
 
-      img.Save("C:\\Temp\\" + tempNumber++ + ".png", ImageFormat.Png);
-
+      return img;
     }
+
+    #endregion
 
   }
 }

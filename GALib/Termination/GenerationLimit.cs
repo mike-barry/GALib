@@ -25,6 +25,15 @@ namespace GALib.Termination
       }
     }
 
+    public GenerationLimit()
+    {
+    }
+
+    public GenerationLimit( int maxGenerations )
+    {
+      MaxGenerations = maxGenerations;
+    }
+
     public override bool CheckTermination(IGeneticAlgorithm ga)
     {
       if (ga.GenerationNumber >= maxGenerations)

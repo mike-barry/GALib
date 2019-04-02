@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Forms;
 
 using GALib;
-using GALib.Util;
 
 namespace Test
 {
@@ -17,10 +15,13 @@ namespace Test
     /// <param name="args"></param>
     static void Main(string[] args)
     {
+      Application.EnableVisualStyles();
+      Application.SetCompatibleTextRenderingDefault(false);
+      Application.Run(new MainForm());
       //HashSetTest();
       //GALib.Selection.FitnessProportionateSelection.Test();
       //NQueen();
-      TravelingSalesman();
+      //TravelingSalesman();
     }
 
     static void TravelingSalesman()
@@ -45,7 +46,6 @@ namespace Test
       {
         TravelingSalesmanGA travel = new TravelingSalesmanGA(locations, false, numLocations * 100)
         {
-          ConsoleOutput = true,
           PopulationSize = 100, //numLocations,
           PreserveElitePercent = 0.10,
           SelectionMethod = new GALib.Selection.FitnessProportionateSelection()
@@ -67,7 +67,8 @@ namespace Test
           }
         };
 
-        travel.Run(10000);
+        for(int i = 0; i < 1000; i++)
+          travel.Run();
       }
 
       stopTime = DateTime.Now;
@@ -101,7 +102,6 @@ namespace Test
       {
         nQueen = new NQueenGA(numQueens, true, numQueens * 100)
         {
-          ConsoleOutput = true,
           PopulationSize = numQueens,// * 10,
           PreserveElitePercent = 0.25,
           //SelectionMethod = new GALib.Selection.RandomSelection()
@@ -137,7 +137,8 @@ namespace Test
         else
           Console.WriteLine("Optimal = " + nQueen.RescaleMethod.Rescale(nQueen.BestFitness));
 
-        IGenotype result = nQueen.Run(int.MaxValue);
+        for (int i = 0; i < int.MaxValue; i++)
+          nQueen.Run();
 
         //Console.WriteLine("Optimal = " + nQueen.BestFitness);
         //Console.WriteLine("Result  = " + result.Fitness);
