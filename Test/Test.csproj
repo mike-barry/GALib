@@ -48,10 +48,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NQueenGA.cs" />
+    <Compile Include="NQueen\NQueenGA.cs" />
     <Compile Include="TravelingSalesman\TravelingSalesmanDataset.cs" />
     <Compile Include="TravelingSalesman\TravellingSalesmanParams.cs" />
-    <Compile Include="NQueenParams.cs" />
+    <Compile Include="NQueen\NQueenParams.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MainForm.cs">

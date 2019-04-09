@@ -3,7 +3,7 @@
 using GALib;
 using GALib.Util;
 
-namespace Test
+namespace Test.NQueen
 {
   public class NQueenGA : GeneticAlgorithm<int>
   {
