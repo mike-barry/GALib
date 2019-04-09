@@ -8,9 +8,11 @@ namespace GALib.Crossover
 {
   public class SinglePointCrossover //: CrossoverMethod
   {
-  //  public override Genotype[] DoCrossover(List<Genotype> parents)
-  //  {
-  //    throw new NotImplementedException();
-  //  }
+    //  public SinglePointCrossover() : base(true) { }
+
+    //  public override Genotype[] DoCrossover(List<Genotype> parents)
+    //  {
+    //    throw new NotImplementedException();
+    //  }
   }
 }

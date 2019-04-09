@@ -8,6 +8,8 @@ namespace GALib.Crossover
 {
   public class PartiallyMappedCrossover : CrossoverMethod
   {
+    public PartiallyMappedCrossover() : base(true) { }
+
     //public int MinCrossoverWidth { get; set; } // TODO implement
     //public int MaxCrossoverWidth { get; set; } // TODO implement
 
