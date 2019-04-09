@@ -9,9 +9,9 @@ using System.Drawing;
 using GALib;
 using System.Drawing.Imaging;
 
-namespace Test
+namespace Test.TravelingSalesman
 {
-  public class TravelingSalesmanGA : GeneticAlgorithm<int>
+  public class TravellingSalesmanGA : GeneticAlgorithm<int>
   {
 
     #region [ Location ]
@@ -24,6 +24,18 @@ namespace Test
       public string Name;
       public double X;
       public double Y;
+
+      public Location(string name, double x, double y)
+      {
+        Name = name;
+        X = x;
+        Y = y;
+      }
+
+      public Point ToPoint(double xScale, int xOffset, double yScale, int yOffset)
+      {
+        return new Point((int)(X * xScale) + xOffset, (int)(Y * yScale) + yOffset);
+      }
     }
 
     #endregion
@@ -68,7 +80,6 @@ namespace Test
     #region [ Members ]
 
     private List<Location> locations = null;
-    //private Dictionary<LocationPair,double> distances = null;
     private List<int> geneDomain = null;
     private int genotypeLength;
 
@@ -76,10 +87,11 @@ namespace Test
 
     #region [ Constructor ]
 
-    public TravelingSalesmanGA(List<Location> locations, bool allowDuplicates, int maxRetriesForDuplicates) :
-      base(allowDuplicates, maxRetriesForDuplicates)
+    public TravellingSalesmanGA(TravellingSalesmanParams p) :
+      base(p)
     {
-      this.locations = locations;
+      locations = p.GetDataset().Locations;
+
       genotypeLength = locations.Count - 2;
       geneDomain = Enumerable.Range(1, genotypeLength).ToList();
 

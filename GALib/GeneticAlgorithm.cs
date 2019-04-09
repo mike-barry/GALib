@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,47 +24,38 @@ namespace GALib
     /// <summary>
     /// Constructor
     /// </summary>
-    public GeneticAlgorithm(bool allowDuplicates, int maxRetriesForDuplicates)
+    public GeneticAlgorithm(GeneticAlgorithmParameters p)
     {
-      AllowDuplicates = allowDuplicates;
-      MaxRetriesForDuplicates = maxRetriesForDuplicates;
+      AllowDuplicates = p.AllowDuplicates;
+      MaxRetriesForDuplicates = p.MaxRetriesForDuplicates;
+      PopulationSize = p.PopulationSize;
+      PreserveElitePercent = p.PreserveElitePercent;
     }
 
     #endregion
 
     #region [ Properties ]
 
-    [Browsable(false)]
     public Action FinishedGeneration { get; set; } = null;
 
-    [Browsable(false)]
     public Action TerminationReached { get; set; } = null;
 
-    [Category("Parameter"), DisplayName("Population Size")]
     public int PopulationSize { get; set; } = 100;
 
-    [Browsable(false)]
     public List<IGenotype> Population { get; private set; } = null;
 
-    [Category("Status"), DisplayName("Current Generation #")]
     public int GenerationNumber { get; private set; } = 0;
 
-    [Category("Status")]
     public bool Converged { get; private set; } = false;
 
-    [Category("Status")]
     public bool Terminated { get; private set; } = false;
 
-    [Category("Status"), DisplayName("Solution Found")]
     public bool SolutionFound { get; private set; } = false;
 
-    [Category("Setup"), DisplayName("Allow Duplicate Individuals")]
     public bool AllowDuplicates { get; private set; }
 
-    [Category("Setup"), DisplayName("Max Duplicate Collisions")]
     public int MaxRetriesForDuplicates { get; private set; }
 
-    [Category("Parameter"), DisplayName("Elitism Percent"), Description("The percent of elites to preserve between generations")]
     public double PreserveElitePercent
     {
       get
@@ -83,25 +73,18 @@ namespace GALib
       }
     }
 
-    [Category("Status"), DisplayName("Best Solution (Current)")]
     public IGenotype BestCurrent { get; private set; } = null;
 
-    [Category("Status"), DisplayName("Best Solution (Initial)")]
     public IGenotype BestInitial { get; private set; } = null;
 
-    [Browsable(false)]
     public GenotypeFactory.CreateGenotype<Gene> CreateMethod { get; private set; } = null;
 
-    [Browsable(false)]
     public Selection.SelectionMethod SelectionMethod { get; set; } = null;
 
-    [Browsable(false)]
     public Crossover.CrossoverMethod CrossoverMethod { get; set; } = null;
 
-    [Browsable(false)]
     public Mutation.MutationMethod MutationMethod { get; set; } = null;
 
-    [Browsable(false)]
     public List<Termination.TerminationMethod> TerminationMethods { get; private set; } = new List<Termination.TerminationMethod>();
 
     #endregion

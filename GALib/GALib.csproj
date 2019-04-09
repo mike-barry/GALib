@@ -47,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Crossover\OrderCrossover.cs" />
-    <Compile Include="IConstructorParams.cs" />
+    <Compile Include="GeneticAlgorithmParameters.cs" />
     <Compile Include="IGeneticAlgorithm.cs" />
     <Compile Include="Mutation\SwapMutation.cs" />
     <Compile Include="SafeHashSet.cs" />

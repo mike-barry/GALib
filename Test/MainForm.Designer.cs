@@ -31,14 +31,12 @@
       this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
       this.startStopButton = new System.Windows.Forms.Button();
       this.pictureBox = new System.Windows.Forms.PictureBox();
-      this.gaResetButton = new System.Windows.Forms.Button();
       this.terminationNumericUpDown = new System.Windows.Forms.NumericUpDown();
       this.label1 = new System.Windows.Forms.Label();
       this.tabControl = new System.Windows.Forms.TabControl();
-      this.gaTabPage = new System.Windows.Forms.TabPage();
-      this.gaParamNumericUpDown = new System.Windows.Forms.NumericUpDown();
-      this.gaComboBox = new System.Windows.Forms.ComboBox();
-      this.gaPropertyGrid = new System.Windows.Forms.PropertyGrid();
+      this.problemTabPage = new System.Windows.Forms.TabPage();
+      this.paramsComboBox = new System.Windows.Forms.ComboBox();
+      this.paramsPropertyGrid = new System.Windows.Forms.PropertyGrid();
       this.selectionTabPage = new System.Windows.Forms.TabPage();
       this.selectionComboBox = new System.Windows.Forms.ComboBox();
       this.selectionPropertyGrid = new System.Windows.Forms.PropertyGrid();
@@ -48,7 +46,7 @@
       this.mutationTabPage = new System.Windows.Forms.TabPage();
       this.mutationPropertyGrid = new System.Windows.Forms.PropertyGrid();
       this.mutationComboBox = new System.Windows.Forms.ComboBox();
-      this.tabPage1 = new System.Windows.Forms.TabPage();
+      this.terminationTabPage = new System.Windows.Forms.TabPage();
       this.terminationPropertyGrid = new System.Windows.Forms.PropertyGrid();
       this.terminationRemoveButton = new System.Windows.Forms.Button();
       this.terminationListBox = new System.Windows.Forms.ListBox();
@@ -58,12 +56,11 @@
       ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.terminationNumericUpDown)).BeginInit();
       this.tabControl.SuspendLayout();
-      this.gaTabPage.SuspendLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.gaParamNumericUpDown)).BeginInit();
+      this.problemTabPage.SuspendLayout();
       this.selectionTabPage.SuspendLayout();
       this.crossoverTabPage.SuspendLayout();
       this.mutationTabPage.SuspendLayout();
-      this.tabPage1.SuspendLayout();
+      this.terminationTabPage.SuspendLayout();
       this.SuspendLayout();
       // 
       // backgroundWorker
@@ -90,17 +87,6 @@
       this.pictureBox.Size = new System.Drawing.Size(640, 640);
       this.pictureBox.TabIndex = 1;
       this.pictureBox.TabStop = false;
-      // 
-      // gaResetButton
-      // 
-      this.gaResetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-      this.gaResetButton.Location = new System.Drawing.Point(265, 554);
-      this.gaResetButton.Name = "gaResetButton";
-      this.gaResetButton.Size = new System.Drawing.Size(75, 23);
-      this.gaResetButton.TabIndex = 0;
-      this.gaResetButton.Text = "Reset";
-      this.gaResetButton.UseVisualStyleBackColor = true;
-      this.gaResetButton.Click += new System.EventHandler(this.gaResetButton_Click);
       // 
       // terminationNumericUpDown
       // 
@@ -135,75 +121,50 @@
       // 
       // tabControl
       // 
-      this.tabControl.Controls.Add(this.gaTabPage);
+      this.tabControl.Controls.Add(this.problemTabPage);
       this.tabControl.Controls.Add(this.selectionTabPage);
       this.tabControl.Controls.Add(this.crossoverTabPage);
       this.tabControl.Controls.Add(this.mutationTabPage);
-      this.tabControl.Controls.Add(this.tabPage1);
+      this.tabControl.Controls.Add(this.terminationTabPage);
       this.tabControl.Location = new System.Drawing.Point(13, 13);
       this.tabControl.Name = "tabControl";
       this.tabControl.SelectedIndex = 0;
       this.tabControl.Size = new System.Drawing.Size(354, 609);
       this.tabControl.TabIndex = 5;
       // 
-      // gaTabPage
+      // problemTabPage
       // 
-      this.gaTabPage.Controls.Add(this.gaParamNumericUpDown);
-      this.gaTabPage.Controls.Add(this.gaComboBox);
-      this.gaTabPage.Controls.Add(this.gaResetButton);
-      this.gaTabPage.Controls.Add(this.gaPropertyGrid);
-      this.gaTabPage.Location = new System.Drawing.Point(4, 22);
-      this.gaTabPage.Name = "gaTabPage";
-      this.gaTabPage.Padding = new System.Windows.Forms.Padding(3);
-      this.gaTabPage.Size = new System.Drawing.Size(346, 583);
-      this.gaTabPage.TabIndex = 0;
-      this.gaTabPage.Text = "Genetic Algorithm";
-      this.gaTabPage.UseVisualStyleBackColor = true;
+      this.problemTabPage.Controls.Add(this.paramsComboBox);
+      this.problemTabPage.Controls.Add(this.paramsPropertyGrid);
+      this.problemTabPage.Location = new System.Drawing.Point(4, 22);
+      this.problemTabPage.Name = "problemTabPage";
+      this.problemTabPage.Padding = new System.Windows.Forms.Padding(3);
+      this.problemTabPage.Size = new System.Drawing.Size(346, 583);
+      this.problemTabPage.TabIndex = 0;
+      this.problemTabPage.Text = "Problem";
+      this.problemTabPage.UseVisualStyleBackColor = true;
       // 
-      // gaParamNumericUpDown
+      // paramsComboBox
       // 
-      this.gaParamNumericUpDown.Location = new System.Drawing.Point(185, 555);
-      this.gaParamNumericUpDown.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-      this.gaParamNumericUpDown.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-      this.gaParamNumericUpDown.Name = "gaParamNumericUpDown";
-      this.gaParamNumericUpDown.Size = new System.Drawing.Size(74, 20);
-      this.gaParamNumericUpDown.TabIndex = 4;
-      this.gaParamNumericUpDown.Value = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-      // 
-      // gaComboBox
-      // 
-      this.gaComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+      this.paramsComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.gaComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-      this.gaComboBox.Enabled = false;
-      this.gaComboBox.FormattingEnabled = true;
-      this.gaComboBox.Location = new System.Drawing.Point(3, 3);
-      this.gaComboBox.Name = "gaComboBox";
-      this.gaComboBox.Size = new System.Drawing.Size(340, 21);
-      this.gaComboBox.TabIndex = 3;
-      this.gaComboBox.SelectedIndexChanged += new System.EventHandler(this.gaComboBox_SelectedIndexChanged);
+      this.paramsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+      this.paramsComboBox.FormattingEnabled = true;
+      this.paramsComboBox.Location = new System.Drawing.Point(3, 3);
+      this.paramsComboBox.Name = "paramsComboBox";
+      this.paramsComboBox.Size = new System.Drawing.Size(340, 21);
+      this.paramsComboBox.TabIndex = 3;
+      this.paramsComboBox.SelectedIndexChanged += new System.EventHandler(this.gaComboBox_SelectedIndexChanged);
       // 
-      // gaPropertyGrid
+      // paramsPropertyGrid
       // 
-      this.gaPropertyGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+      this.paramsPropertyGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.gaPropertyGrid.Location = new System.Drawing.Point(3, 30);
-      this.gaPropertyGrid.Name = "gaPropertyGrid";
-      this.gaPropertyGrid.Size = new System.Drawing.Size(340, 518);
-      this.gaPropertyGrid.TabIndex = 0;
+      this.paramsPropertyGrid.Location = new System.Drawing.Point(3, 30);
+      this.paramsPropertyGrid.Name = "paramsPropertyGrid";
+      this.paramsPropertyGrid.Size = new System.Drawing.Size(340, 550);
+      this.paramsPropertyGrid.TabIndex = 0;
       // 
       // selectionTabPage
       // 
@@ -307,22 +268,22 @@
       this.mutationComboBox.TabIndex = 5;
       this.mutationComboBox.SelectedIndexChanged += new System.EventHandler(this.mutationComboBox_SelectedIndexChanged);
       // 
-      // tabPage1
+      // terminationTabPage
       // 
-      this.tabPage1.Controls.Add(this.terminationPropertyGrid);
-      this.tabPage1.Controls.Add(this.terminationRemoveButton);
-      this.tabPage1.Controls.Add(this.terminationListBox);
-      this.tabPage1.Controls.Add(this.terminationAddButton);
-      this.tabPage1.Controls.Add(this.terminationComboBox);
-      this.tabPage1.Controls.Add(this.terminationNumericUpDown);
-      this.tabPage1.Controls.Add(this.label1);
-      this.tabPage1.Location = new System.Drawing.Point(4, 22);
-      this.tabPage1.Name = "tabPage1";
-      this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPage1.Size = new System.Drawing.Size(346, 583);
-      this.tabPage1.TabIndex = 4;
-      this.tabPage1.Text = "Termination";
-      this.tabPage1.UseVisualStyleBackColor = true;
+      this.terminationTabPage.Controls.Add(this.terminationPropertyGrid);
+      this.terminationTabPage.Controls.Add(this.terminationRemoveButton);
+      this.terminationTabPage.Controls.Add(this.terminationListBox);
+      this.terminationTabPage.Controls.Add(this.terminationAddButton);
+      this.terminationTabPage.Controls.Add(this.terminationComboBox);
+      this.terminationTabPage.Controls.Add(this.terminationNumericUpDown);
+      this.terminationTabPage.Controls.Add(this.label1);
+      this.terminationTabPage.Location = new System.Drawing.Point(4, 22);
+      this.terminationTabPage.Name = "terminationTabPage";
+      this.terminationTabPage.Padding = new System.Windows.Forms.Padding(3);
+      this.terminationTabPage.Size = new System.Drawing.Size(346, 583);
+      this.terminationTabPage.TabIndex = 4;
+      this.terminationTabPage.Text = "Termination";
+      this.terminationTabPage.UseVisualStyleBackColor = true;
       // 
       // terminationPropertyGrid
       // 
@@ -406,13 +367,12 @@
       ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.terminationNumericUpDown)).EndInit();
       this.tabControl.ResumeLayout(false);
-      this.gaTabPage.ResumeLayout(false);
-      ((System.ComponentModel.ISupportInitialize)(this.gaParamNumericUpDown)).EndInit();
+      this.problemTabPage.ResumeLayout(false);
       this.selectionTabPage.ResumeLayout(false);
       this.crossoverTabPage.ResumeLayout(false);
       this.mutationTabPage.ResumeLayout(false);
-      this.tabPage1.ResumeLayout(false);
-      this.tabPage1.PerformLayout();
+      this.terminationTabPage.ResumeLayout(false);
+      this.terminationTabPage.PerformLayout();
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -423,24 +383,22 @@
     private System.ComponentModel.BackgroundWorker backgroundWorker;
     private System.Windows.Forms.Button startStopButton;
     private System.Windows.Forms.PictureBox pictureBox;
-    private System.Windows.Forms.Button gaResetButton;
     private System.Windows.Forms.NumericUpDown terminationNumericUpDown;
     private System.Windows.Forms.Label label1;
     private System.Windows.Forms.TabControl tabControl;
-    private System.Windows.Forms.TabPage gaTabPage;
+    private System.Windows.Forms.TabPage problemTabPage;
     private System.Windows.Forms.TabPage selectionTabPage;
-    private System.Windows.Forms.PropertyGrid gaPropertyGrid;
+    private System.Windows.Forms.PropertyGrid paramsPropertyGrid;
     private System.Windows.Forms.TabPage crossoverTabPage;
     private System.Windows.Forms.TabPage mutationTabPage;
     private System.Windows.Forms.PropertyGrid selectionPropertyGrid;
-    private System.Windows.Forms.TabPage tabPage1;
+    private System.Windows.Forms.TabPage terminationTabPage;
     private System.Windows.Forms.ComboBox selectionComboBox;
     private System.Windows.Forms.ComboBox crossoverComboBox;
     private System.Windows.Forms.PropertyGrid crossoverPropertyGrid;
     private System.Windows.Forms.PropertyGrid mutationPropertyGrid;
     private System.Windows.Forms.ComboBox mutationComboBox;
-    private System.Windows.Forms.ComboBox gaComboBox;
-    private System.Windows.Forms.NumericUpDown gaParamNumericUpDown;
+    private System.Windows.Forms.ComboBox paramsComboBox;
     private System.Windows.Forms.Button terminationAddButton;
     private System.Windows.Forms.ComboBox terminationComboBox;
     private System.Windows.Forms.ListBox terminationListBox;

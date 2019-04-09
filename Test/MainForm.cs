@@ -12,6 +12,8 @@ using GALib;
 using GALib.Crossover;
 using GALib.Selection;
 using GALib.Mutation;
+using Test.TravelingSalesman;
+using System.Threading;
 
 namespace Test
 {
@@ -20,7 +22,7 @@ namespace Test
 
     #region [ Members ]
 
-    private TravelingSalesmanGA ga;
+    private TravellingSalesmanGA ga;
     private bool stopRequested = false;
 
     #endregion
@@ -43,9 +45,13 @@ namespace Test
     /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
     private void TravelingSalesmanForm_Load(object sender, EventArgs e)
     {
+      paramsComboBox.Items.Clear();
       selectionComboBox.Items.Clear();
       crossoverComboBox.Items.Clear();
       mutationComboBox.Items.Clear();
+
+      paramsComboBox.Items.Add(new TravellingSalesmanParams());
+      paramsComboBox.Items.Add(new NQueenParams());
 
       foreach (Type t in Tools.GetDerivedTypes(typeof(SelectionMethod)))
         selectionComboBox.Items.Add((SelectionMethod)Activator.CreateInstance(t));
@@ -58,20 +64,10 @@ namespace Test
 
       //TODO TerminationMethod
 
+      ComboBoxSelectByType(paramsComboBox, typeof(TravellingSalesmanParams));
       ComboBoxSelectByType(selectionComboBox, typeof(FitnessProportionateSelection));
       ComboBoxSelectByType(crossoverComboBox, typeof(PartiallyMappedCrossover));
       ComboBoxSelectByType(mutationComboBox, typeof(SwapMutation));
-      ResetGA();
-    }
-
-    /// <summary>
-    /// Handles the Click event of the gaResetButton control.
-    /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-    private void gaResetButton_Click(object sender, EventArgs e)
-    {
-      ResetGA();
     }
 
     /// <summary>
@@ -81,16 +77,19 @@ namespace Test
     /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event data.</param>
     private void startStopButton_Click(object sender, EventArgs e)
     {
+      GeneticAlgorithmParameters parameters;
+
       if (startStopButton.Text == "Start")
       {
-        if( ga.Terminated || ga.Converged || ga.SolutionFound)
-        {
-          MessageBox.Show("Genetic Algorithm has finished -- it must be reset before being run again");
-          return;
-        }
-
         startStopButton.Text = "Stop";
         EnableForm(false);
+
+        parameters = (GeneticAlgorithmParameters)paramsComboBox.SelectedItem;
+
+        if (parameters.GetType() == typeof(TravellingSalesmanParams))
+          ga = new TravellingSalesmanGA((TravellingSalesmanParams)parameters);
+        else
+          throw new NotImplementedException();
 
         ga.SelectionMethod = (SelectionMethod)selectionComboBox.SelectedItem;
         ga.CrossoverMethod = (CrossoverMethod)crossoverComboBox.SelectedItem;
@@ -114,7 +113,7 @@ namespace Test
     /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event data.</param>
     private void gaComboBox_SelectedIndexChanged(object sender, EventArgs e)
     {
-      //TODO
+      paramsPropertyGrid.SelectedObject = paramsComboBox.SelectedItem;
     }
 
     /// <summary>
@@ -162,6 +161,8 @@ namespace Test
 
         if (ga.SolutionFound || ga.Converged || ga.Terminated || stopRequested)
           break;
+
+        Thread.Sleep(10);
       }
     }
 
@@ -183,21 +184,21 @@ namespace Test
     /// <param name="e">The <see cref="System.ComponentModel.RunWorkerCompletedEventArgs" /> instance containing the event data.</param>
     private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
     {
-      if (ga.SolutionFound)
-        MessageBox.Show("Found solution after " + ga.GenerationNumber + " generations");
-      else if (ga.Converged)
-        MessageBox.Show("Prematurely converged after " + ga.GenerationNumber + " generations");
-      else if (ga.Terminated)
-        MessageBox.Show("Terminated after " + ga.GenerationNumber + " generations");
-      else if (stopRequested)
-        MessageBox.Show("Stopped by user after " + ga.GenerationNumber + " generations");
+      //if (ga.SolutionFound)
+      //  MessageBox.Show("Found solution after " + ga.GenerationNumber + " generations");
+      //else if (ga.Converged)
+      //  MessageBox.Show("Prematurely converged after " + ga.GenerationNumber + " generations");
+      //else if (ga.Terminated)
+      //  MessageBox.Show("Terminated after " + ga.GenerationNumber + " generations");
+      //else if (stopRequested)
+      //  MessageBox.Show("Stopped by user after " + ga.GenerationNumber + " generations");
 
       stopRequested = false;
 
       startStopButton.Text = "Start";
       EnableForm(true);
 
-      gaPropertyGrid.Refresh();
+      paramsPropertyGrid.Refresh();
     }
 
     #endregion
@@ -217,37 +218,13 @@ namespace Test
     }
 
     /// <summary>
-    /// Resets the genetic algorithm.  (THIS IS TEMPORARY)
-    /// </summary>
-    private void ResetGA()
-    {
-      int numLocations;
-      Random rand;
-      List<TravelingSalesmanGA.Location> locations;
-
-      numLocations = (int)gaParamNumericUpDown.Value;
-
-      locations = new List<TravelingSalesmanGA.Location>(numLocations);
-      rand = new Random(421784);
-
-      for (int i = 0; i < numLocations; i++)
-        locations.Add(new TravelingSalesmanGA.Location() { Name = "Location #" + i, X = rand.NextDouble() * 100, Y = rand.NextDouble() * 100 });
-
-      ga = new TravelingSalesmanGA(locations, false, numLocations * 100);
-
-      gaPropertyGrid.SelectedObject = ga;
-    }
-
-    /// <summary>
     /// Enables or disables controls on the form.
     /// </summary>
     /// <param name="enable">if set to <c>true</c> enables; otherwise, disables.</param>
     private void EnableForm(bool enable)
     {
-      gaComboBox.Enabled = enable;
-      gaPropertyGrid.Enabled = enable;
-      gaParamNumericUpDown.Enabled = enable;
-      gaResetButton.Enabled = enable;
+      paramsComboBox.Enabled = enable;
+      paramsPropertyGrid.Enabled = enable;
       selectionComboBox.Enabled = enable;
       selectionPropertyGrid.Enabled = enable;
       crossoverComboBox.Enabled = enable;

@@ -17,13 +17,13 @@ namespace Test
     /// 
     /// </summary>
     /// <param name="numQueens"></param>
-    public NQueenGA(int numQueens, bool allowDuplicates, int maxRetriesForDuplicates) :
-      base(allowDuplicates, maxRetriesForDuplicates)
+    public NQueenGA(NQueenParams p) :
+      base(p)
     {
-      NumQueens = numQueens;
+      NumQueens = p.NumQueens;
       BestFitness = 0;
 
-      for (int i = 0; i < numQueens; i++)
+      for (int i = 0; i < NumQueens; i++)
       {
         GeneDomain.Add(i);
         BestFitness += i + 1;
@@ -65,7 +65,7 @@ namespace Test
 
       solutionFound = (conflicts == 0);
 
-
+      //TODO temp scaling
       double retVal;
 
       if (RescaleMethod == null)
