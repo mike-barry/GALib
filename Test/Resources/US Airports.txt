@@ -1,0 +1,410 @@
+Abilene (ABI)	32.411	-99.682
+Nantucket (ACK)	41.253	-70.06
+Waco (ACT)	31.611	-97.23
+Atlantic City (ACY)	39.458	-74.577
+Ardmore (ADM)	34.303	-97.019
+Camp Springs (ADW)	38.811	-76.867
+Alexandria (AEX)	31.327	-92.548
+Bush Field (AGS)	33.37	-81.964
+Akron (AKR)	41.038	-81.467
+Albany (ALB)	42.748	-73.803
+Alice (ALI)	27.741	-98.027
+Amarillo (AMA)	35.219	-101.706
+Anniston (ANB)	33.588	-85.858
+Andersen (AND)	34.495	-82.709
+Altoona (AOO)	40.296	-78.32
+Aberdeen (APG)	39.466	-76.169
+Louisiana (ARA)	30.038	-91.884
+Watertown (ART)	43.992	-76.022
+Atlanta (ATL)	33.64	-84.427
+Augusta (AUG)	44.321	-69.797
+Austin (AUS)	30.194	-97.67
+Marysville (BAB)	39.136	-121.436
+Shreveport (BAD)	32.502	-93.663
+Boca Raton (BCT)	26.378	-80.107
+Baudette (BDE)	48.728	-94.612
+Windsor Locks (BDL)	41.939	-72.683
+Stratford (BDR)	41.163	-73.126
+Bedford (BED)	42.47	-71.289
+Seattle (BFI)	47.53	-122.302
+Bakersfield (BFL)	35.433	-119.057
+Mobile (BFM)	30.626	-88.068
+Bangor (BGR)	44.807	-68.828
+Birmingham (BHM)	33.563	-86.753
+El Paso (BIF)	31.849	-106.38
+Biloxi (BIX)	30.411	-88.924
+Buckley (BKF)	39.702	-104.751
+Bellingham (BLI)	48.792	-122.537
+Belleville (BLV)	38.545	-89.835
+Nashville (BNA)	36.124	-86.678
+Boise (BOI)	43.564	-116.223
+Boston (BOS)	42.364	-71.005
+Beaumont (BPT)	29.951	-94.021
+Brownsville (BRO)	25.907	-97.426
+Baton Rouge (BTR)	30.533	-91.149
+Burlington (BTV)	44.472	-73.153
+Buffalo (BUF)	42.94	-78.732
+Burbank (BUR)	34.201	-118.359
+Baltimore (BWI)	39.175	-76.668
+Blytheville (BYH)	35.964	-89.943
+Fort Irwin (BYS)	35.28	-116.63
+Colombia (CAE)	33.939	-81.119
+Caribou (CAR)	46.871	-68.018
+Colombus (CBM)	33.644	-88.444
+Cedar City (CDC)	37.701	-113.099
+Childress (CDS)	34.434	-100.288
+Chicopee Falls (CEF)	42.198	-72.534
+Crestview (CEW)	30.779	-86.522
+Bryan (CFD)	30.716	-96.331
+Chattanooga (CHA)	35.035	-85.204
+Charleston (CHS)	32.899	-80.04
+Chico (CIC)	39.795	-121.858
+Cleveland (CLE)	41.412	-81.85
+College Station (CLL)	30.588	-96.364
+Charlotte (CLT)	35.214	-80.943
+Columbus (CMH)	39.998	-82.892
+Carlsbad (CNM)	32.337	-104.263
+Waco (CNW)	31.638	-97.074
+Coco Beach (COF)	28.235	-80.61
+Colorado Springs (COS)	38.806	-104.7
+Cotulla (COT)	28.458	-99.22
+Columbia (COU)	38.818	-92.219
+Casper (CPR)	42.908	-106.464
+Corpus Christi (CRP)	27.77	-97.501
+Cutbank (CTB)	48.608	-112.376
+Cincinnati (CVG)	39.046	-84.662
+Clovis (CVS)	34.383	-103.322
+Calexico (CXL)	32.669	-115.513
+Conroe (CXO)	30.352	-95.414
+Cheyenne (CYS)	41.156	-104.812
+Dallas (DAL)	32.847	-96.852
+Dayton (DAY)	39.902	-84.219
+Washington (DCA)	38.852	-77.037
+Denver (DEN)	39.858	-104.667
+Detroit (DET)	42.409	-83.01
+Dallas-Fort Worth (DFW)	32.896	-97.037
+Dothan (DHN)	31.321	-85.449
+Dalhart (DHT)	36.023	-102.547
+Del Rio (DLF)	29.359	-100.778
+Duluth (DLH)	46.842	-92.194
+Tucson (DMA)	32.166	-110.883
+Dover (DOV)	39.13	-75.466
+West Chicago (DPA)	41.908	-88.249
+Deridder (DRI)	30.832	-93.34
+Durango (DRO)	37.151	-107.754
+Del Rio (DRT)	29.373	-100.926
+Des Moines (DSM)	41.534	-93.663
+Detroit (DTW)	42.212	-83.353
+Douglas (DUG)	31.469	-109.604
+Abilene (DYS)	32.421	-99.854
+Elizabeth City (ECG)	36.261	-76.174
+Edwards Afb (EDW)	34.905	-117.884
+Houston (EFD)	29.607	-95.159
+Eagle Pass (EGP)	28.7	-100.479
+Elkins (EKN)	38.889	-79.857
+El Dorado (ELD)	33.221	-92.813
+El Paso (ELP)	31.807	-106.378
+Enid (END)	36.34	-97.916
+Wendover (ENV)	40.719	-114.031
+Alexandria (ESF)	31.395	-92.296
+New Bern (EWN)	35.073	-77.043
+Newark (EWR)	40.692	-74.169
+Fort Eustis (FAF)	37.133	-76.609
+Fresno (FAT)	36.776	-119.718
+Fort Carson (FCS)	38.678	-104.756
+Dayton (FFO)	39.826	-84.048
+Fort Huachuca (FHU)	31.588	-110.344
+Fort Lauderdale (FLL)	26.072	-80.153
+Florence (FLO)	34.185	-79.724
+Fort Leavenworth (FLV)	39.368	-94.914
+Fort Meade (N/A)	39.085	-76.759
+Falmouth (FMH)	41.658	-70.521
+Farmington (FMN)	36.741	-108.23
+Fort Myers (FMY)	26.586	-81.863
+Fort Dodge (FOD)	42.551	-94.193
+Topeka (FOE)	38.951	-95.664
+West Hampton Beach (FOK)	40.844	-72.632
+Fort Riley (FRI)	39.055	-96.764
+Fort Sill (FSI)	34.65	-98.402
+Fort Smith (FSM)	35.336	-94.367
+Fort Knox (FTK)	37.907	-85.972
+Fort Worth (FTW)	32.82	-97.362
+Fort Lauderdale (FXE)	26.197	-80.171
+Fayetteville (FYV)	36.005	-94.17
+Gage (GAG)	36.295	-99.776
+Garden City (GCK)	37.927	-100.724
+Spokane (GEG)	47.62	-117.534
+Grand Forks (GFK)	47.949	-97.176
+Longview (GGG)	32.385	-94.711
+Galveston (GLS)	29.265	-94.86
+Grants (GNT)	35.165	-107.901
+Gainesville (GNV)	29.69	-82.272
+Green Bay (GRB)	44.485	-88.129
+Fort Lewis (GRF)	47.079	-122.581
+Killeen (GRK)	31.067	-97.829
+Grand Rapids (GRR)	42.881	-85.523
+Goldsboro (GSB)	35.339	-77.961
+Fort Drum (GTB)	44.056	-75.719
+Great Falls (GTF)	47.482	-111.371
+Peru (GUS)	40.648	-86.152
+Greenvile (GVT)	33.068	-96.065
+Grandview (GVW)	38.843	-94.561
+Greenwood (GWO)	33.494	-90.084
+Hobart (HBR)	34.991	-99.051
+Hartford (HFD)	41.736	-72.65
+Hawthorne (HHR)	33.923	-118.335
+Hibbing (HIB)	47.386	-92.839
+Ogden (HIF)	41.124	-111.973
+Hickory (HKY)	35.741	-81.389
+Helena (HLN)	46.607	-111.983
+Fort Hood (HLR)	31.139	-97.714
+Alamogordo (HMN)	32.852	-106.106
+Hobbs (HOB)	32.688	-103.217
+Huron (HON)	44.385	-98.228
+Hopkinsville (HOP)	36.668	-87.496
+Houston (HOU)	29.645	-95.279
+White Plains (HPN)	41.067	-73.707
+Harlingen (HRL)	26.228	-97.654
+Harrison (HRO)	36.261	-93.155
+Mary Esther (HRT)	30.428	-86.689
+Homestead (HST)	25.488	-80.384
+Houghton Lake (HTL)	44.36	-84.671
+Redstone (HUA)	34.679	-86.685
+Terre Haute (HUF)	39.451	-87.307
+Houlton (HUL)	46.123	-67.792
+Havre (HVR)	48.543	-109.762
+Hollywood (HWO)	26.001	-80.24
+Wichita (IAB)	37.623	-97.267
+Washington (IAD)	38.944	-77.456
+Niagara Falls (IAG)	43.107	-78.946
+Houston (IAH)	29.98	-95.34
+Wichita (ICT)	37.65	-97.433
+Kankakee (IKK)	41.071	-87.846
+Kirtland A.F.B. (ABQ)	35.04	-106.609
+Wilmington (ILG)	39.679	-75.606
+Wilmington (ILM)	34.271	-77.903
+Indianapolis (IND)	39.717	-86.294
+Wink (INK)	31.779	-103.201
+International Falls (INL)	48.566	-93.403
+Indian Springs (INS)	36.587	-115.673
+Winston-Salem (INT)	36.134	-80.222
+Imperial (IPL)	32.834	-115.579
+Williamsport (IPT)	41.242	-76.921
+Williston (ISN)	48.178	-103.642
+Islip (ISP)	40.795	-73.1
+Jackson (JAN)	32.311	-90.076
+Jacksonville (JAX)	30.494	-81.688
+Jonesboro (JBR)	35.832	-90.646
+New York (JFK)	40.64	-73.779
+Lansing (LAN)	42.779	-84.587
+Las Vegas (LAS)	36.08	-115.152
+Los Angeles (LAX)	33.942	-118.408
+Lubbock (LBB)	33.664	-101.823
+Lake Charles (LCH)	30.126	-93.223
+Columbus (LCK)	39.814	-82.928
+Hampton (LFI)	37.083	-76.36
+Lufkin (LFK)	31.234	-94.75
+Lafayette (LFT)	30.205	-91.987
+New York (LGA)	40.777	-73.872
+Long Beach (LGB)	33.818	-118.151
+Wright (LHW)	31.889	-81.562
+Little Rock (LIT)	34.729	-92.224
+West Palm Beach (LNA)	26.593	-80.085
+Lincoln (LNK)	40.851	-96.759
+Louisville (LOU)	38.228	-85.664
+Laredo (LRD)	27.544	-99.461
+Jacksonville (LRF)	34.918	-92.146
+Fort Benning (LSF)	32.337	-84.991
+Las Vegas (LSV)	36.236	-115.034
+Altus (LTS)	34.667	-99.267
+Phoenix (LUF)	33.535	-112.383
+Cincinnati (LUK)	39.103	-84.419
+Midland (MAF)	31.942	-102.202
+Sacramento (MCC)	38.667	-121.401
+Tampa (MCF)	27.849	-82.521
+Kansas City (MCI)	39.297	-94.714
+Macon (MCN)	32.693	-83.649
+Orlando (MCO)	28.429	-81.316
+Harrisburg (MDT)	40.193	-76.763
+Chicago (MDW)	41.786	-87.752
+Memphis (MEM)	35.042	-89.977
+Merced (MER)	37.38	-120.568
+Mcallen (MFE)	26.176	-98.239
+Marietta (MGE)	33.915	-84.516
+Sacramento (MHR)	38.554	-121.297
+Miami (MIA)	25.793	-80.291
+Minot (MIB)	48.416	-101.357
+Millville (MIV)	39.368	-75.072
+Milwaukee (MKE)	42.947	-87.896
+Jackson (MKL)	35.6	-88.916
+Muskogee (MKO)	35.657	-95.361
+Melbourne (MLB)	28.103	-80.645
+Mcalester (MLC)	34.882	-95.783
+Millinocket (MLT)	45.648	-68.686
+Monroe (MLU)	32.511	-92.037
+Mackminnville (MMV)	45.194	-123.136
+Macon (MNM)	45.126	-87.638
+Mobile (MOB)	30.691	-88.243
+Modesto (MOD)	37.626	-120.954
+Minot (MOT)	48.259	-101.28
+Montpelier (MPV)	44.203	-72.562
+Marquette (MQT)	46.534	-87.562
+Madison (MSN)	43.14	-89.337
+Minneapolis (MSP)	44.88	-93.217
+Massena (MSS)	44.936	-74.845
+New Orleans (MSY)	29.993	-90.258
+Mount Clemens (MTC)	42.613	-82.832
+Muir (MUI)	40.435	-76.569
+Mountain Home (MUO)	43.043	-115.872
+Grant County Airport (MWH)	47.208	-119.32
+Mineral Wells (MWL)	32.781	-98.06
+Montgomery (MXF)	32.379	-86.362
+Myrtle Beach (MYR)	33.68	-78.928
+Beaufort (NBC)	32.477	-80.723
+New Orleans (NBG)	29.825	-90.035
+Jacksonville (NCA)	34.708	-77.439
+Lakehurst (NEL)	40.033	-74.353
+Fallon (NFL)	39.416	-118.701
+Norfolk (NGU)	36.938	-76.289
+Patuxent River (NHK)	38.286	-76.412
+China (NID)	35.688	-117.691
+Jacksonville (NIP)	30.236	-81.681
+El Centro (NJK)	32.829	-115.672
+Cherry Point (NKT)	34.902	-76.881
+Miramar (NKX)	32.868	-117.143
+Lemoore (NLC)	36.333	-119.952
+Meridian (NMM)	32.552	-88.556
+Port Angeles (NOW)	48.141	-123.414
+Pensacola (NPA)	30.353	-87.319
+Millington (NQA)	35.357	-89.87
+Kingsville (NQI)	27.507	-97.81
+Milton (NSE)	30.724	-87.022
+Point Mugu (NTD)	34.12	-119.121
+Tustin (NTK)	33.706	-117.827
+Oceana (NTU)	36.821	-76.033
+Mountain View (NUQ)	37.415	-122.048
+Whidbey Island (NUW)	48.352	-122.656
+Twenty Nine Palms (NXP)	34.296	-116.162
+Willow Grove (NXX)	40.2	-75.148
+Quantico (NYG)	38.502	-77.305
+Jacksonville (NZC)	30.219	-81.876
+San Diego (NZY)	32.699	-117.215
+Oakland (OAK)	37.721	-122.221
+Omaha (OFF)	41.118	-95.913
+Ogdensburg (OGS)	44.682	-75.466
+Oklahoma City (OKC)	35.393	-97.601
+Nogales (OLS)	31.418	-110.848
+Omaha (OMA)	41.302	-95.894
+Ontario (ONT)	34.056	-117.601
+Miami (OPF)	25.907	-80.278
+Chicago (ORD)	41.979	-87.904
+Norfolk (ORF)	36.894	-76.201
+Orlando (ORL)	28.545	-81.333
+Oscoda (N/A)	44.451	-83.394
+Everett (PAE)	47.906	-122.281
+Panama City (PAM)	30.07	-85.576
+Pine Bluff (PBF)	34.175	-91.934
+Plattsburgh (PBG)	44.651	-73.468
+West Palm Beach (PBI)	26.683	-80.096
+Portland (PDX)	45.589	-122.597
+Newport News (PHF)	37.132	-76.493
+Philadelphia (PHL)	39.872	-75.241
+Port Huron (PHN)	42.911	-82.529
+Phoenix (PHX)	33.434	-112.008
+St. Petersburg (PIE)	27.911	-82.687
+Pittsburgh (Pennsylva) (PIT)	40.491	-80.233
+Pembina (N/A)	48.942	-97.241
+Palmdale (PMD)	34.629	-118.084
+Ponca City (PNC)	36.731	-97.1
+Philadelphia (PNE)	40.082	-75.011
+Princeton (PNM)	45.56	-93.608
+Pensacola (PNS)	30.473	-87.187
+Fayetteville (POB)	35.171	-79.014
+Fort Polk (POE)	31.045	-93.191
+Presque Isle (PQI)	46.689	-68.045
+Prescott (PRC)	34.654	-112.419
+Palm Springs (PSP)	33.829	-116.507
+Palacios (PSX)	28.727	-96.251
+Pueblo Memorial (PUB)	38.289	-104.496
+Providence (PVD)	41.724	-71.428
+Portland (PWM)	43.646	-70.309
+Riverside (RAL)	33.952	-117.445
+Robinson (RBM)	34.85	-92.3
+Rapid City (RCA)	44.145	-103.103
+Red River (RDR)	47.961	-97.401
+Raleigh-Durham (RDU)	35.877	-78.787
+Richmond (RIC)	37.505	-77.319
+Rancho Murieta (RIU)	38.489	-121.102
+Riverside (RIV)	33.881	-117.259
+Rome (RME)	43.234	-75.407
+San Antonio (RND)	29.529	-98.279
+Reno (RNO)	39.498	-119.768
+Rochester (ROC)	43.119	-77.672
+Roswell (ROW)	33.301	-104.531
+Fort Myers (RSW)	26.536	-81.755
+Sacramento (SAC)	38.513	-121.493
+Santa Fe (SAF)	35.617	-106.088
+San Diego (SAN)	32.733	-117.189
+San Antonio (SAT)	29.534	-98.47
+Savannah (SAV)	32.127	-81.202
+Gwinn (N/A)	46.354	-87.396
+Santa Barbara (SBO)	32.608	-82.369
+Salisbury (SBY)	38.34	-75.51
+Stockton (SCK)	37.894	-121.239
+Seattle (SEA)	47.449	-122.309
+Selma (SEM)	32.344	-86.988
+Spokane (SFF)	47.683	-117.322
+San Francisco (SFO)	37.619	-122.375
+Smithfield (SFZ)	41.921	-71.491
+Shreveport (SHV)	32.446	-93.826
+San Jose (SJC)	37.362	-121.929
+San Angelo (SJT)	31.358	-100.496
+Spokane (SKA)	47.615	-117.656
+San Antonio (SKF)	29.384	-98.581
+Sandusky (SKY)	41.433	-82.652
+Salt Lake City (SLC)	40.788	-111.978
+Sacramento (SMF)	38.695	-121.591
+Santa Ana (SNA)	33.676	-117.868
+San Luis (SPB)	45.773	-122.862
+St. Petersburg (SPG)	27.765	-82.627
+Wichita Falls (SPS)	33.989	-98.492
+Sumter (SSC)	33.973	-80.473
+St. Louis (STL)	38.748	-90.36
+Fairfield (SUU)	38.263	-121.927
+Sioux City (SUX)	42.402	-96.384
+Hunter Aaf (SVN)	32.01	-81.146
+Newburgh (SWF)	41.504	-74.105
+Syracuse (SYR)	43.111	-76.106
+Knobnoster (SZL)	38.73	-93.548
+Fort Leonardwood (TBN)	37.741	-92.141
+Tucumcari (TCC)	35.183	-103.603
+Tacoma (TCM)	47.138	-122.476
+Truth Or Consequences (TCS)	33.237	-107.272
+Teterboro (TEB)	40.85	-74.061
+Oklahoma City (TIK)	35.415	-97.386
+Tallahassee (TLH)	30.396	-84.35
+Kendall-Tamiami (TMB)	25.648	-80.433
+Miami (TNT)	25.862	-80.897
+Tonopah (N/A)	37.794	-116.779
+Tampa (TPA)	27.975	-82.533
+Trenton (TTN)	40.277	-74.813
+Tulsa (TUL)	36.198	-95.888
+Tucson (TUS)	32.116	-110.941
+Texarkana (TXK)	33.454	-93.991
+Tyler (TYR)	32.354	-95.402
+Knoxville (TYS)	35.812	-83.993
+Chicago (UGN)	42.422	-87.868
+Valdosta (VAD)	30.968	-83.193
+Lompoc (VBG)	34.729	-120.577
+Victorville (VCV)	34.593	-117.379
+Valparaiso (VPS)	30.483	-86.525
+Vero Beach (VRB)	27.656	-80.418
+Wallops Island (WAL)	37.94	-75.466
+Macon (WRB)	32.64	-83.592
+Wrightstown (WRI)	40.016	-74.594
+White Sands (WSD)	32.341	-106.403
+Wildwood (WWD)	39.008	-74.908
+Detroit (YIP)	42.238	-83.53
+Youngstown (YNG)	41.261	-80.679
+Yuma (YUM)	32.656	-114.606
+Zuni Pueblo (ZUN)	35.083	-108.792
