@@ -6,9 +6,18 @@ using System.Threading.Tasks;
 
 namespace GALib.Mutation
 {
+  /// <summary>
+  /// This is a mutation method I made up.
+  /// </summary>
+  /// <seealso cref="GALib.Mutation.MutationMethod" />
   public class SwapMutation : MutationMethod
   {
     private int maxSwaps = 1;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SwapMutation"/> class.
+    /// </summary>
+    public SwapMutation() : base(true) { }
 
     /// <summary>
     /// Gets or sets the maximum number of swaps.

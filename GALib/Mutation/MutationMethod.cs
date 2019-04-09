@@ -11,6 +11,15 @@ namespace GALib.Mutation
     private double mutationChance = 0.10;
 
     /// <summary>
+    /// Initializes a new instance of the <see cref="MutationMethod"/> class.
+    /// </summary>
+    /// <param name="distinctChromosomeRequired">if set to <c>true</c> distinct chromosome required.</param>
+    public MutationMethod(bool distinctChromosomeRequired)
+    {
+      DistinctChromosomeRequired = distinctChromosomeRequired;
+    }
+
+    /// <summary>
     /// Gets or sets the mutation chance.
     /// </summary>
     /// <value>
@@ -27,8 +36,17 @@ namespace GALib.Mutation
       {
         if (mutationChance < 0 || mutationChance > 1)
           throw new ArgumentException("Value must be between 0 and 1");
+        mutationChance = value;
       }
     }
+
+    /// <summary>
+    /// Gets a value indicating whether the mutation method requires a distinct chromosome.
+    /// </summary>
+    /// <value>
+    ///   <c>true</c> if mutation method requires a distinct chromosome; otherwise, <c>false</c>.
+    /// </value>
+    public bool DistinctChromosomeRequired { get; private set; } // TODO need to implement this
 
     /// <summary>
     /// Performs mutation of the chromosome.
@@ -40,7 +58,7 @@ namespace GALib.Mutation
     {
       if (MutationChance < Tools.StaticRandom.NextDouble())
       {
-        HandleMutation<Gene>(ref chromosome);
+        HandleMutation(ref chromosome);
         return true;
       }
       else

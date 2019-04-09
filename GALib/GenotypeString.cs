@@ -26,6 +26,11 @@ namespace GALib
       get { return Chromosome[index]; }
     }
 
+    public override List<char> ToList()
+    {
+      return Chromosome.ToList();
+    }
+
     /// <summary>
     /// 
     /// </summary>

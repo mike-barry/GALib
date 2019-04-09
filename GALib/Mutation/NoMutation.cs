@@ -9,6 +9,11 @@ namespace GALib.Mutation
   public class NoMutation : MutationMethod
   {
     /// <summary>
+    /// Initializes a new instance of the <see cref="NoMutation"/> class.
+    /// </summary>
+    public NoMutation() : base(true) { }
+
+    /// <summary>
     /// Performs no mutation.
     /// </summary>
     /// <typeparam name="Gene">The type of the Gene</typeparam>

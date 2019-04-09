@@ -3,6 +3,14 @@ using System.Collections.Generic;
 
 namespace GALib
 {
+  /// <summary>
+  /// 
+  /// </summary>
+  /// <typeparam name="Gene">The type of the ene.</typeparam>
+  /// <seealso cref="GALib.Genotype{Gene}" />
+  /// <remarks>
+  /// TODO this[int index] and ToList() need to return a deep copy of the underlying data if the Gene type is immutable
+  /// </remarks>
   public class GenotypeGenericList<Gene> : Genotype<Gene>
     where Gene : IComparable
   {
@@ -21,7 +29,7 @@ namespace GALib
       Chromosome = chromosome;
       Fitness = fitness;
       Length = chromosome.Length;
-
+      
       CalculateHashCode();
     }
 
@@ -46,10 +54,21 @@ namespace GALib
     }
 
     /// <summary>
-    /// 
+    /// Converts to the chrosome to a list.
     /// </summary>
-    /// <param name="obj"></param>
-    /// <returns></returns>
+    /// <returns>A list containing the individual genes of the chromosome.</returns>
+    public override List<Gene> ToList()
+    {
+      return new List<Gene>(Chromosome);
+    }
+
+    /// <summary>
+    /// Determines whether the specified <see cref="System.Object" />, is equal to this instance.
+    /// </summary>
+    /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
+    /// <returns>
+    ///   <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.
+    /// </returns>
     public override bool Equals(object obj)
     {
       if (obj is GenotypeGenericList<Gene>)
