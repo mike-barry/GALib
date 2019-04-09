@@ -46,9 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Crossover\OrderCrossover.cs" />
+    <Compile Include="Crossover\Order1Crossover.cs" />
     <Compile Include="GeneticAlgorithmParameters.cs" />
     <Compile Include="IGeneticAlgorithm.cs" />
+    <Compile Include="Mutation\ReverseSequenceMutation.cs" />
+    <Compile Include="Mutation\CenterInverseMutation.cs" />
     <Compile Include="Mutation\SwapMutation.cs" />
     <Compile Include="SafeHashSet.cs" />
     <Compile Include="GenotypeFactory.cs" />
@@ -80,6 +82,8 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="notes.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

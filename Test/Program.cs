@@ -4,6 +4,8 @@ using System.Linq;
 using System.Windows.Forms;
 
 using GALib;
+using GALib.Crossover;
+using GALib.Mutation;
 
 namespace Test
 {
@@ -15,70 +17,24 @@ namespace Test
     /// <param name="args"></param>
     static void Main(string[] args)
     {
-      Application.EnableVisualStyles();
-      Application.SetCompatibleTextRenderingDefault(false);
-      Application.Run(new MainForm());
+      //Test();
       //HashSetTest();
       //GALib.Selection.FitnessProportionateSelection.Test();
       //NQueen();
-      //TravelingSalesman();
+
+      Application.EnableVisualStyles();
+      Application.SetCompatibleTextRenderingDefault(false);
+      Application.Run(new MainForm());
     }
 
-    static void TravelingSalesman()
+    /// <summary>
+    /// 
+    /// </summary>
+    static void Test()
     {
-      //DateTime startTime, stopTime;
-      //int numLocations, numRuns;
-      //Random rand;
-      //List<TravelingSalesmanGA.Location> locations;
-
-      //numRuns = 1;
-      //numLocations = 100;
-
-      //locations = new List<TravelingSalesmanGA.Location>(numLocations);
-      //rand = new Random(421784);
-
-      //for (int i = 0; i < numLocations; i++)
-      //  locations.Add(new TravelingSalesmanGA.Location() { Name = "Location #" + i, X = rand.NextDouble() * 100, Y = rand.NextDouble() * 100 });
-
-      //startTime = DateTime.Now;
-
-      //for (int run = 0; run < numRuns; run++)
-      //{
-      //  TravelingSalesmanGA travel = new TravelingSalesmanGA(locations, false, numLocations * 100)
-      //  {
-      //    PopulationSize = 100, //numLocations,
-      //    PreserveElitePercent = 0.10,
-      //    SelectionMethod = new GALib.Selection.FitnessProportionateSelection()
-      //    {
-      //      AllowDuplicates = false,
-      //      MaxRetriesForDuplicates = numLocations * 100,
-      //      UseStochasticAcceptance = false,
-      //      TruncateBeforeSelect = true,
-      //      TruncationPercent = 0.25
-      //    },
-      //    CrossoverMethod = new GALib.Crossover.PartiallyMappedCrossover()
-      //    {
-      //      ProduceTwoChildren = true
-      //    },
-      //    MutationMethod = new GALib.Mutation.SwapMutation()
-      //    {
-      //      MutationChance = 0.1,
-      //      MaxNumberOfSwaps = 1
-      //    }
-      //  };
-
-      //  for(int i = 0; i < 1000; i++)
-      //    travel.Run();
-      //}
-
-      //stopTime = DateTime.Now;
-
-      //Console.WriteLine();
-      //Console.WriteLine("Average Duration = " + (stopTime - startTime).TotalSeconds / numRuns + " seconds");
-      //Console.WriteLine("Total Duration = " + (stopTime - startTime).TotalSeconds + " seconds");
-      //Console.WriteLine();
-      //Console.WriteLine("Press any key to quit...");
-      //Console.ReadKey();
+      //new Order1Crossover().Test();
+      //new ReverseSequenceMutation().Test();
+      //new CenterInverseMutation().Test();
     }
 
     /// <summary>
@@ -183,12 +139,6 @@ namespace Test
       hashSet.Add(b);
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    static void Test()
-    {
-    }
 
   }
 }

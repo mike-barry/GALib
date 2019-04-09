@@ -53,6 +53,7 @@
       this.terminationAddButton = new System.Windows.Forms.Button();
       this.terminationComboBox = new System.Windows.Forms.ComboBox();
       this.bestTextBox = new System.Windows.Forms.TextBox();
+      this.generationTextBox = new System.Windows.Forms.TextBox();
       ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.terminationNumericUpDown)).BeginInit();
       this.tabControl.SuspendLayout();
@@ -72,7 +73,7 @@
       // 
       // startStopButton
       // 
-      this.startStopButton.Location = new System.Drawing.Point(12, 628);
+      this.startStopButton.Location = new System.Drawing.Point(13, 606);
       this.startStopButton.Name = "startStopButton";
       this.startStopButton.Size = new System.Drawing.Size(75, 23);
       this.startStopButton.TabIndex = 0;
@@ -105,7 +106,7 @@
       this.terminationNumericUpDown.Size = new System.Drawing.Size(85, 20);
       this.terminationNumericUpDown.TabIndex = 3;
       this.terminationNumericUpDown.Value = new decimal(new int[] {
-            1000,
+            10000,
             0,
             0,
             0});
@@ -129,7 +130,7 @@
       this.tabControl.Location = new System.Drawing.Point(13, 13);
       this.tabControl.Name = "tabControl";
       this.tabControl.SelectedIndex = 0;
-      this.tabControl.Size = new System.Drawing.Size(354, 609);
+      this.tabControl.Size = new System.Drawing.Size(354, 587);
       this.tabControl.TabIndex = 5;
       // 
       // problemTabPage
@@ -139,7 +140,7 @@
       this.problemTabPage.Location = new System.Drawing.Point(4, 22);
       this.problemTabPage.Name = "problemTabPage";
       this.problemTabPage.Padding = new System.Windows.Forms.Padding(3);
-      this.problemTabPage.Size = new System.Drawing.Size(346, 583);
+      this.problemTabPage.Size = new System.Drawing.Size(346, 561);
       this.problemTabPage.TabIndex = 0;
       this.problemTabPage.Text = "Problem";
       this.problemTabPage.UseVisualStyleBackColor = true;
@@ -163,7 +164,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
       this.paramsPropertyGrid.Location = new System.Drawing.Point(3, 30);
       this.paramsPropertyGrid.Name = "paramsPropertyGrid";
-      this.paramsPropertyGrid.Size = new System.Drawing.Size(340, 550);
+      this.paramsPropertyGrid.Size = new System.Drawing.Size(340, 528);
       this.paramsPropertyGrid.TabIndex = 0;
       // 
       // selectionTabPage
@@ -344,17 +345,26 @@
       // 
       // bestTextBox
       // 
-      this.bestTextBox.Location = new System.Drawing.Point(373, 658);
+      this.bestTextBox.Location = new System.Drawing.Point(255, 632);
       this.bestTextBox.Name = "bestTextBox";
       this.bestTextBox.ReadOnly = true;
-      this.bestTextBox.Size = new System.Drawing.Size(640, 20);
+      this.bestTextBox.Size = new System.Drawing.Size(112, 20);
       this.bestTextBox.TabIndex = 6;
+      // 
+      // generationTextBox
+      // 
+      this.generationTextBox.Location = new System.Drawing.Point(255, 606);
+      this.generationTextBox.Name = "generationTextBox";
+      this.generationTextBox.ReadOnly = true;
+      this.generationTextBox.Size = new System.Drawing.Size(112, 20);
+      this.generationTextBox.TabIndex = 7;
       // 
       // MainForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(1024, 688);
+      this.ClientSize = new System.Drawing.Size(1024, 664);
+      this.Controls.Add(this.generationTextBox);
       this.Controls.Add(this.bestTextBox);
       this.Controls.Add(this.tabControl);
       this.Controls.Add(this.pictureBox);
@@ -405,5 +415,6 @@
     private System.Windows.Forms.PropertyGrid terminationPropertyGrid;
     private System.Windows.Forms.Button terminationRemoveButton;
     private System.Windows.Forms.TextBox bestTextBox;
+    private System.Windows.Forms.TextBox generationTextBox;
   }
 }

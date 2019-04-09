@@ -1,0 +1,15 @@
+﻿
+
+
+Crossover Methods:
+http://www.rubicite.com/Tutorials/GeneticAlgorithms.aspx
+
+
+
+
+Mutation Methods:
+Page 70-72 https://www.researchgate.net/publication/221700559_Analyzing_the_Performance_of_Mutation_Operators_to_Solve_the_TravellingSalesman_Problem
+
+Throas Mutation
+Partial Shuffle Mutation
+

@@ -63,7 +63,7 @@ namespace Test
       ComboBoxSelectByType(paramsComboBox, typeof(TravellingSalesmanParams));
       ComboBoxSelectByType(selectionComboBox, typeof(FitnessProportionateSelection));
       ComboBoxSelectByType(crossoverComboBox, typeof(PartiallyMappedCrossover));
-      ComboBoxSelectByType(mutationComboBox, typeof(SwapMutation));
+      ComboBoxSelectByType(mutationComboBox, typeof(ReverseSequenceMutation));
     }
 
     /// <summary>
@@ -149,16 +149,28 @@ namespace Test
     /// <param name="e">The <see cref="System.ComponentModel.DoWorkEventArgs" /> instance containing the event data.</param>
     private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
     {
-      while (true)
+      long begin, elapsed;
+
+      try
       {
-        ga.Run();
+        while (true)
+        {
+          begin = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+          ga.Run();
 
-        backgroundWorker.ReportProgress(0);
+          backgroundWorker.ReportProgress(0);
 
-        if (ga.SolutionFound || ga.Converged || ga.Terminated || stopRequested)
-          break;
+          if (ga.SolutionFound || ga.Converged || ga.Terminated || stopRequested)
+            break;
 
-        Thread.Sleep(10);
+          elapsed = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond - begin;
+
+          Thread.Sleep((int)Math.Max(0, 10 - elapsed));
+        }
+      }
+      catch(Exception ex)
+      {
+        backgroundWorker.ReportProgress(0, ex);
       }
     }
 
@@ -169,8 +181,16 @@ namespace Test
     /// <param name="e">The <see cref="System.ComponentModel.ProgressChangedEventArgs" /> instance containing the event data.</param>
     private void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
     {
-      bestTextBox.Text = ga.BestCurrent.ToString();
-      NewGeneration();
+      if (e.UserState is Exception)
+      {
+        MessageBox.Show(((Exception)e.UserState).Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+      }
+      else
+      {
+        generationTextBox.Text = "#" + ga.GenerationNumber;
+        bestTextBox.Text = (1 / ga.BestCurrent.Fitness).ToString();
+        NewGeneration();
+      }
     }
 
     /// <summary>
@@ -248,6 +268,5 @@ namespace Test
     }
 
     #endregion
-
   }
 }

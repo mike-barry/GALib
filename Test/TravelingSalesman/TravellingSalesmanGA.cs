@@ -194,7 +194,7 @@ namespace Test.TravelingSalesman
       g = Graphics.FromImage(img);
 
       g.FillRectangle(Brushes.White, 0, 0, 100 * scale + pad * 2, 100 * scale + pad * 2);
-      g.DrawString("#" + GenerationNumber + " " + (1 / individual.Fitness).ToString("0.0000"), font, Brushes.Black, 0, 0);
+      //g.DrawString("#" + GenerationNumber + " " + (1 / individual.Fitness).ToString("0.0000"), font, Brushes.Black, 0, 0);
 
       a = locations[0];
       b = locations[individual[0]];
