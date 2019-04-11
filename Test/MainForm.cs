@@ -18,7 +18,8 @@ namespace Test
 
     #region [ Members ]
 
-    private TravellingSalesmanGA ga;
+    private IGeneticAlgorithm ga;
+    private IGenotype best;
     private bool stopRequested = false;
 
     #endregion
@@ -60,6 +61,7 @@ namespace Test
 
       //TODO TerminationMethod
 
+      //ComboBoxSelectByType(paramsComboBox, typeof(NQueenParams));
       ComboBoxSelectByType(paramsComboBox, typeof(TravellingSalesmanParams));
       ComboBoxSelectByType(selectionComboBox, typeof(FitnessProportionateSelection));
       ComboBoxSelectByType(crossoverComboBox, typeof(PartiallyMappedCrossover));
@@ -73,19 +75,19 @@ namespace Test
     /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event data.</param>
     private void startStopButton_Click(object sender, EventArgs e)
     {
-      GeneticAlgorithmParameters parameters;
+      GeneticAlgorithmParams parameters;
 
       if (startStopButton.Text == "Start")
       {
         startStopButton.Text = "Stop";
         EnableForm(false);
 
-        parameters = (GeneticAlgorithmParameters)paramsComboBox.SelectedItem;
+        parameters = (GeneticAlgorithmParams)paramsComboBox.SelectedItem;
 
         if (parameters.GetType() == typeof(TravellingSalesmanParams))
           ga = new TravellingSalesmanGA((TravellingSalesmanParams)parameters);
         else
-          throw new NotImplementedException();
+          ga = new NQueenGA((NQueenParams)parameters);
 
         ga.SelectionMethod = (SelectionMethod)selectionComboBox.SelectedItem;
         ga.CrossoverMethod = (CrossoverMethod)crossoverComboBox.SelectedItem;
@@ -95,6 +97,8 @@ namespace Test
         //TODO: ga.TerminationMethods.Add(terminationListBox.Items);
         ga.TerminationMethods.Add(new GALib.Termination.SolutionFound()); //TEMP
         ga.TerminationMethods.Add(new GALib.Termination.GenerationLimit((int)terminationNumericUpDown.Value)); //TEMP
+
+        best = null;
 
         backgroundWorker.RunWorkerAsync();
       }
@@ -187,8 +191,7 @@ namespace Test
       }
       else
       {
-        generationTextBox.Text = "#" + ga.GenerationNumber;
-        bestTextBox.Text = (1 / ga.BestCurrent.Fitness).ToString();
+        statusTextBox.Text = "Generation #" + ga.GenerationNumber + "      1 / Fitness = " + (1.0 / ga.BestCurrent.Fitness).ToString();
         NewGeneration();
       }
     }
@@ -217,6 +220,22 @@ namespace Test
       paramsPropertyGrid.Refresh();
     }
 
+    /// <summary>
+    /// Handles the SizeChanged event of the MainForm control.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+    private void MainForm_SizeChanged(object sender, EventArgs e)
+    {
+      Bitmap img;
+
+      if (best != null)
+      {
+        img = ga.DrawIndividual((Genotype<int>)ga.BestCurrent, pictureBox.Width - 2, pictureBox.Height - 2);
+        pictureBox.Image = img;
+      }
+    }
+
     #endregion
 
     #region [ Methods ]
@@ -228,9 +247,12 @@ namespace Test
     {
       Bitmap img;
 
-      img = ga.DrawIndividual((Genotype<int>)ga.BestCurrent);
-
-      pictureBox.Image = img;
+      if (best != ga.BestCurrent)
+      {
+        best = ga.BestCurrent;
+        img = ga.DrawIndividual((Genotype<int>)ga.BestCurrent, pictureBox.Width - 2, pictureBox.Height - 2);
+        pictureBox.Image = img;
+      }
     }
 
     /// <summary>
@@ -268,5 +290,6 @@ namespace Test
     }
 
     #endregion
+
   }
 }

@@ -5,33 +5,18 @@ using GALib;
 
 namespace Test.TravelingSalesman
 {
-  public class TravellingSalesmanParams : GeneticAlgorithmParameters
+  public class TravellingSalesmanParams : GeneticAlgorithmParams
   {
-    public enum DatasetTypeEnum
-    {
-      Random,
-      Airports,
-      Circle
-    }
 
     [Category("Problem Parameters"), DisplayName("Number of Locations")]
-    public int NumLocations { get; set; } = 100;
+    public int NumLocations { get; set; } = 30;
 
     [Category("Problem Parameters"), DisplayName("Dataset")]
-    public DatasetTypeEnum DatasetType { get; set; } = DatasetTypeEnum.Random;
+    public TravelingSalesmanDataset.DatasetTypeEnum DatasetType { get; set; } = TravelingSalesmanDataset.DatasetTypeEnum.Circle;
 
     public TravelingSalesmanDataset GetDataset()
     {
-      switch(DatasetType)
-      {
-        case DatasetTypeEnum.Airports:
-          return TravelingSalesmanDataset.LoadAirports(NumLocations);
-        case DatasetTypeEnum.Circle:
-          throw new NotImplementedException();
-        case DatasetTypeEnum.Random:
-        default:
-          return TravelingSalesmanDataset.GenerateRandom(NumLocations);
-      }
+      return TravelingSalesmanDataset.Generate(DatasetType, NumLocations);
     }
 
     public override string ToString()

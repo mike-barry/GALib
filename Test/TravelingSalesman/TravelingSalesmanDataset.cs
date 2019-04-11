@@ -7,11 +7,38 @@ namespace Test.TravelingSalesman
 {
   public class TravelingSalesmanDataset
   {
+
+    #region [ DatasetTypeEnum ]
+
+    public enum DatasetTypeEnum
+    {
+      Airports,
+      Circle,
+      Donut,
+      Random,
+      Star,
+      Test
+    }
+
+    #endregion
+
+    #region [ Members ]
+
     public List<TravellingSalesmanGA.Location> Locations = new List<TravellingSalesmanGA.Location>();
     public double MinX = double.MaxValue;
     public double MinY = double.MaxValue;
     public double MaxX = double.MinValue;
     public double MaxY = double.MinValue;
+
+    #endregion
+
+    #region [ Constructor ]
+
+    private TravelingSalesmanDataset() { } // Intentionally declared private so it can't be instantiated outside this class
+
+    #endregion
+
+    #region [ Methods ]
 
     /// <summary>
     /// Adds a location.
@@ -52,20 +79,75 @@ namespace Test.TravelingSalesman
       MaxY = newMaxY;
     }
 
+    #endregion
+
+    #region [ Static Methods ]
+
+    public static TravelingSalesmanDataset Generate(DatasetTypeEnum datasetType, int numLocations)
+    {
+      switch (datasetType)
+      {
+        case DatasetTypeEnum.Airports:
+          return LoadAirports(numLocations);
+        case DatasetTypeEnum.Circle:
+          return GenerateCircle(numLocations, 1);
+        case DatasetTypeEnum.Donut:
+          return GenerateCircle(numLocations, 2);
+        case DatasetTypeEnum.Random:
+          return GenerateRandom(numLocations);
+        case DatasetTypeEnum.Star:
+          return GenerateCircle(numLocations, 1.10);
+        case DatasetTypeEnum.Test:
+        default:
+          return GenerateRandom(numLocations, 421784);
+      }
+    }
+
     /// <summary>
-    /// Loads random locations.
+    /// Generates random locations.
     /// </summary>
     /// <param name="numLocations">The number locations.</param>
-    public static TravelingSalesmanDataset GenerateRandom(int numLocations)
+    private static TravelingSalesmanDataset GenerateRandom(int numLocations, int? seed = null)
     {
       TravelingSalesmanDataset d;
       Random rand;
 
       d = new TravelingSalesmanDataset();
-      rand = new Random(421784);
+
+      if (seed != null)
+        rand = new Random((int)seed);
+      else
+        rand = new Random();
 
       for (int i = 0; i < numLocations; i++)
         d.AddLocation(new TravellingSalesmanGA.Location("Location #" + i, rand.NextDouble() * 100, rand.NextDouble() * 100));
+
+      return d;
+    }
+
+    /// <summary>
+    /// Generates locations in a circle pattern.
+    /// </summary>
+    /// <param name="numLocations">The number locations.</param>
+    /// <param name="altScale">The alt scale.</param>
+    /// <returns></returns>
+    private static TravelingSalesmanDataset GenerateCircle(int numLocations, double altScale = 1)
+    {
+      TravelingSalesmanDataset d;
+      double step;
+
+      d = new TravelingSalesmanDataset();
+      step = Math.PI / ((numLocations - 1) / 2);
+
+      for (int i = 1; i <= numLocations; i++)
+      {
+        if (i % 2 == 0)
+          d.AddLocation(new TravellingSalesmanGA.Location(i.ToString(), Math.Cos(step * i), Math.Sin(step * i)));
+        else
+          d.AddLocation(new TravellingSalesmanGA.Location(i.ToString(), Math.Cos(step * i) * altScale, Math.Sin(step * i) * altScale));
+      }
+
+      d.Normalize(100, 100);
 
       return d;
     }
@@ -75,7 +157,7 @@ namespace Test.TravelingSalesman
     /// </summary>
     /// <param name="numLocations">The number locations.</param>
     /// <exception cref="Exception">Error parsing file</exception>
-    public static TravelingSalesmanDataset LoadAirports(int numLocations)
+    private static TravelingSalesmanDataset LoadAirports(int numLocations)
     {
       TravelingSalesmanDataset d;
       Random rand;
@@ -110,6 +192,8 @@ namespace Test.TravelingSalesman
       d.Normalize(100, 100);
       return d;
     }
+
+    #endregion
 
   }
 }

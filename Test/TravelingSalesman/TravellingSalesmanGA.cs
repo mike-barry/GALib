@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Drawing;
 
@@ -32,10 +30,11 @@ namespace Test.TravelingSalesman
         Y = y;
       }
 
-      public Point ToPoint(double xScale, int xOffset, double yScale, int yOffset)
+      public Point ToPoint(double xScale, double xOffset, double yScale, double yOffset, int pad)
       {
-        return new Point((int)(X * xScale) + xOffset, (int)(Y * yScale) + yOffset);
+        return new Point((int)((X + xOffset) * xScale) + pad, (int)((Y + yOffset) * yScale) + pad);
       }
+
     }
 
     #endregion
@@ -79,9 +78,13 @@ namespace Test.TravelingSalesman
 
     #region [ Members ]
 
+    private TravelingSalesmanDataset dataset = null;
     private List<Location> locations = null;
     private List<int> geneDomain = null;
     private int genotypeLength;
+
+    private readonly Pen blackPen = new Pen(Color.Black, 2);
+    private readonly Pen greenPen = new Pen(Color.LightGreen, 2);
 
     #endregion
 
@@ -90,8 +93,8 @@ namespace Test.TravelingSalesman
     public TravellingSalesmanGA(TravellingSalesmanParams p) :
       base(p)
     {
-      locations = p.GetDataset().Locations;
-
+      dataset = p.GetDataset();
+      locations = dataset.Locations;
       genotypeLength = locations.Count - 2;
       geneDomain = Enumerable.Range(1, genotypeLength).ToList();
 
@@ -173,46 +176,60 @@ namespace Test.TravelingSalesman
     /// Draws the individual.
     /// </summary>
     /// <param name="individual">The individual.</param>
+    /// <param name="width">The width.</param>
+    /// <param name="height">The height.</param>
     /// <returns></returns>
-    public Bitmap DrawIndividual(Genotype<int> individual)
+    public override Bitmap DrawIndividual(IGenotype individual, int width, int height)
     {
-      int pad, scale, dotSize;
+      return DrawIndividual((Genotype<int>)individual, width, height);
+    }
+
+    /// <summary>
+    /// Draws the individual.
+    /// </summary>
+    /// <param name="individual">The individual.</param>
+    /// <param name="width">The width.</param>
+    /// <param name="height">The height.</param>
+    /// <returns></returns>
+    private Bitmap DrawIndividual(Genotype<int> individual, int width, int height)
+    {
+      const int DOT_SIZE = 10;
+      const int HALF_DOT_SIZE = DOT_SIZE / 2;
+      const int PAD = 20;
+      const int DOUBLE_PAD = PAD * 2;
+
+      double xOffset, yOffset, xScale, yScale;
       Bitmap img;
       Graphics g;
-      Font font;
-      Pen blackPen, greenPen;
-      Location a, b;
+      Point a, b;
 
-      font = new Font(FontFamily.GenericSansSerif, 20);
-      blackPen = new Pen(Color.Black, 2);
-      greenPen = new Pen(Color.LightGreen, 2);
 
-      scale = 5;
-      pad = 5;
-      dotSize = 5;
-      img = new Bitmap(100 * scale + pad * 2, 100 * scale + pad * 2);
+      xOffset = -dataset.MinX;
+      yOffset = -dataset.MinY;
+      xScale = (width - DOUBLE_PAD) / (dataset.MaxX - dataset.MinX);
+      yScale = (height - DOUBLE_PAD) / (dataset.MaxY - dataset.MinY);
+
+      img = new Bitmap(width, height);
       g = Graphics.FromImage(img);
+      g.FillRectangle(Brushes.White, 0, 0, width, height);
 
-      g.FillRectangle(Brushes.White, 0, 0, 100 * scale + pad * 2, 100 * scale + pad * 2);
-      //g.DrawString("#" + GenerationNumber + " " + (1 / individual.Fitness).ToString("0.0000"), font, Brushes.Black, 0, 0);
-
-      a = locations[0];
-      b = locations[individual[0]];
-      g.DrawLine(greenPen, (float)a.X * scale + pad, (float)a.Y * scale + pad, (float)b.X * scale + pad, (float)b.Y * scale + pad);
-      g.FillEllipse(Brushes.Black, new RectangleF((float)b.X * scale + pad - dotSize, (float)b.Y * scale + pad - dotSize, dotSize * 2, dotSize * 2));
+      a = locations[0].ToPoint(xScale, xOffset, yScale, yOffset, PAD);
+      b = locations[individual[0]].ToPoint(xScale, xOffset, yScale, yOffset, PAD);
+      g.DrawLine(Pens.LightGreen, a, b);
+      g.FillEllipse(Brushes.Black, new RectangleF(b.X - HALF_DOT_SIZE, b.Y - HALF_DOT_SIZE, DOT_SIZE, DOT_SIZE));
 
       for (int i = 0; i < individual.Length - 1; i++)
       {
-        a = locations[individual[i]];
-        b = locations[individual[i + 1]];
-        g.DrawLine(blackPen, (float)a.X * scale + pad, (float)a.Y * scale + pad, (float)b.X * scale + pad, (float)b.Y * scale + pad);
-        g.FillEllipse(Brushes.Black, new RectangleF((float)b.X * scale + pad - dotSize, (float)b.Y * scale + pad - dotSize, dotSize * 2, dotSize * 2));
+        a = locations[individual[i]].ToPoint(xScale, xOffset, yScale, yOffset, PAD);
+        b = locations[individual[i + 1]].ToPoint(xScale, xOffset, yScale, yOffset, PAD);
+        g.DrawLine(Pens.Black, a, b);
+        g.FillEllipse(Brushes.Black, new RectangleF(b.X - HALF_DOT_SIZE, b.Y - HALF_DOT_SIZE, DOT_SIZE, DOT_SIZE));
       }
 
-      a = locations[individual[individual.Length - 1]];
-      b = locations[0];
-      g.DrawLine(blackPen, (float)a.X * scale + pad, (float)a.Y * scale + pad, (float)b.X * scale + pad, (float)b.Y * scale + pad);
-      g.FillEllipse(Brushes.LightGreen, new RectangleF((float)b.X * scale + pad - dotSize, (float)b.Y * scale + pad - dotSize, dotSize * 2, dotSize * 2));
+      a = locations[individual[individual.Length - 1]].ToPoint(xScale, xOffset, yScale, yOffset, PAD);
+      b = locations[0].ToPoint(xScale, xOffset, yScale, yOffset, PAD);
+      g.DrawLine(Pens.Black, a, b);
+      g.FillEllipse(Brushes.LightGreen, new RectangleF(b.X - HALF_DOT_SIZE, b.Y - HALF_DOT_SIZE, DOT_SIZE, DOT_SIZE));
 
       return img;
     }

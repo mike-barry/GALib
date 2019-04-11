@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GALib
 {
@@ -13,18 +12,13 @@ namespace GALib
   public abstract class GeneticAlgorithm<Gene> : IGeneticAlgorithm
     where Gene : IComparable
   {
-    #region [ Members ]
-
-    private double preserveElitePercent = 0.1;
-
-    #endregion
 
     #region [ Constructor ]
 
     /// <summary>
     /// Constructor
     /// </summary>
-    public GeneticAlgorithm(GeneticAlgorithmParameters p)
+    public GeneticAlgorithm(GeneticAlgorithmParams p)
     {
       AllowDuplicates = p.AllowDuplicates;
       MaxRetriesForDuplicates = p.MaxRetriesForDuplicates;
@@ -56,22 +50,7 @@ namespace GALib
 
     public int MaxRetriesForDuplicates { get; private set; }
 
-    public double PreserveElitePercent
-    {
-      get
-      {
-        return preserveElitePercent;
-      }
-      set
-      {
-        if (value < 0)
-          preserveElitePercent = 0;
-        else if (value > 1)
-          preserveElitePercent = 1;
-        else
-          preserveElitePercent = value;
-      }
-    }
+    public double PreserveElitePercent { get; set; }
 
     public IGenotype BestCurrent { get; private set; } = null;
 
@@ -87,12 +66,15 @@ namespace GALib
 
     public List<Termination.TerminationMethod> TerminationMethods { get; private set; } = new List<Termination.TerminationMethod>();
 
+    public Util.IRescale FitnessRescaleMethod { get; set; } = null; // TODO implement
+
     #endregion
 
     #region [ Abstract Methods ]
 
     public abstract IGenotype GenerateRandomMember();
     public abstract double FitnessFunction(Gene[] geneSequence, out bool solutionFound);
+    public abstract Bitmap DrawIndividual(IGenotype individual, int width, int height);
 
     #endregion
 

@@ -38,6 +38,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,7 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Crossover\Order1Crossover.cs" />
-    <Compile Include="GeneticAlgorithmParameters.cs" />
+    <Compile Include="GeneticAlgorithmParams.cs" />
     <Compile Include="IGeneticAlgorithm.cs" />
     <Compile Include="Mutation\ReverseSequenceMutation.cs" />
     <Compile Include="Mutation\CenterInverseMutation.cs" />

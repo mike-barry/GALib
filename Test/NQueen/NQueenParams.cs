@@ -4,7 +4,7 @@ using GALib;
 
 namespace Test.NQueen
 {
-  public class NQueenParams : GeneticAlgorithmParameters
+  public class NQueenParams : GeneticAlgorithmParams
   {
     /// <summary>
     /// Gets or sets the number queens.
@@ -13,7 +13,7 @@ namespace Test.NQueen
     /// The number queens.
     /// </value>
     [Category("Problem Parameters"), DisplayName("Number of Queens")]
-    public int NumQueens { get; set; } = 100;
+    public int NumQueens { get; set; } = 10;
 
     /// <summary>
     /// Converts to string.

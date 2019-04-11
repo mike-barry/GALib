@@ -3,7 +3,7 @@
 
 Crossover Methods:
 http://www.rubicite.com/Tutorials/GeneticAlgorithms.aspx
-
+https://www.tutorialspoint.com/genetic_algorithms/genetic_algorithms_crossover.htm
 
 
 
