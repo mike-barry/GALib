@@ -164,6 +164,7 @@ namespace Test.TravelingSalesman
       List<string> lines;
       int index;
       string[] airport;
+      double lat, lon, x, y;
 
       d = new TravelingSalesmanDataset();
       rand = new Random(421784);
@@ -179,7 +180,16 @@ namespace Test.TravelingSalesman
         {
           index = rand.Next(0, lines.Count);
           airport = lines[index].Split('\t');
-          d.AddLocation(new TravellingSalesmanGA.Location(airport[0], double.Parse(airport[1]), double.Parse(airport[2])));
+
+          lat = double.Parse(airport[1]);
+          lon = double.Parse(airport[2]);
+
+          // Convert (lat,lon) to (x,y)
+          // https://stackoverflow.com/questions/14329691/convert-latitude-longitude-point-to-a-pixels-x-y-on-mercator-projection
+          x = (lon + 180.0) * (100.0 / 360.0);
+          y = (100.0 / 2.0) - (100.0 * Math.Log(Math.Tan((Math.PI / 4.0) + ((lat * Math.PI / 180.0) / 2.0))) / (2.0 * Math.PI));
+
+          d.AddLocation(new TravellingSalesmanGA.Location(airport[0], x, y));
           lines.RemoveAt(index);
         }
       }
