@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace GALib.Mutation
 {
@@ -26,6 +23,7 @@ namespace GALib.Mutation
     /// The maximum number of swaps.
     /// </value>
     /// <exception cref="ArgumentException">Value cannot be less than 1</exception>
+    [Category("Parameters"), DisplayName("Max Number of Swaps")]
     public int MaxNumberOfSwaps
     {
       get
@@ -68,5 +66,17 @@ namespace GALib.Mutation
         chromosome[indexB] = hold;
       }
     }
+
+    /// <summary>
+    /// Converts to string.
+    /// </summary>
+    /// <returns>
+    /// A <see cref="System.String" /> that represents this instance.
+    /// </returns>
+    public override string ToString()
+    {
+      return "Swap Mutation";
+    }
+
   }
 }

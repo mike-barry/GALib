@@ -59,11 +59,8 @@ namespace Test
       foreach (Type t in Tools.GetDerivedTypes(typeof(MutationMethod)))
         mutationComboBox.Items.Add((MutationMethod)Activator.CreateInstance(t));
 
-      //TODO TerminationMethod
-
-      //ComboBoxSelectByType(paramsComboBox, typeof(NQueenParams));
       ComboBoxSelectByType(paramsComboBox, typeof(TravellingSalesmanParams));
-      ComboBoxSelectByType(selectionComboBox, typeof(FitnessProportionateSelection));
+      ComboBoxSelectByType(selectionComboBox, typeof(TournamentSelection));
       ComboBoxSelectByType(crossoverComboBox, typeof(PartiallyMappedCrossover));
       ComboBoxSelectByType(mutationComboBox, typeof(ReverseSequenceMutation));
     }
@@ -94,9 +91,8 @@ namespace Test
         ga.MutationMethod = (MutationMethod)mutationComboBox.SelectedItem;
 
         ga.TerminationMethods.Clear();
-        //TODO: ga.TerminationMethods.Add(terminationListBox.Items);
-        ga.TerminationMethods.Add(new GALib.Termination.SolutionFound()); //TEMP
-        ga.TerminationMethods.Add(new GALib.Termination.GenerationLimit((int)terminationNumericUpDown.Value)); //TEMP
+        ga.TerminationMethods.Add(new GALib.Termination.SolutionFound());
+        ga.TerminationMethods.Add(new GALib.Termination.GenerationLimit((int)terminationNumericUpDown.Value));
 
         best = null;
 
@@ -228,10 +224,12 @@ namespace Test
     private void MainForm_SizeChanged(object sender, EventArgs e)
     {
       Bitmap img;
+      int size;
 
       if (best != null)
       {
-        img = ga.DrawIndividual((Genotype<int>)ga.BestCurrent, pictureBox.Width - 2, pictureBox.Height - 2);
+        size = Math.Min(pictureBox.Width - 2, pictureBox.Height - 2);
+        img = ga.DrawIndividual((Genotype<int>)ga.BestCurrent, size, size);
         pictureBox.Image = img;
       }
     }
@@ -246,11 +244,13 @@ namespace Test
     private void NewGeneration()
     {
       Bitmap img;
+      int size;
 
       if (best != ga.BestCurrent)
       {
         best = ga.BestCurrent;
-        img = ga.DrawIndividual((Genotype<int>)ga.BestCurrent, pictureBox.Width - 2, pictureBox.Height - 2);
+        size = Math.Min(pictureBox.Width - 2, pictureBox.Height - 2);
+        img = ga.DrawIndividual((Genotype<int>)ga.BestCurrent, size, size);
         pictureBox.Image = img;
       }
     }

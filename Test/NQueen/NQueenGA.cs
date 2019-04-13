@@ -88,38 +88,41 @@ namespace Test.NQueen
     /// <param name="width">The width.</param>
     /// <param name="height">The height.</param>
     /// <returns></returns>
-    public Bitmap DrawIndividual(Genotype<int> individual, int width, int height)
+    public Bitmap DrawIndividual(Genotype<int> individual, int widthX, int heightX)
     {
+      int newWidth, newHeight;
       Bitmap img, queens;
       Graphics layer0, layer1;
       double xSpacing, ySpacing, xOffset, yOffset;
       bool[] conflict;
 
-      img = new Bitmap(width, height);
-      layer0 = Graphics.FromImage(img);
-      layer0.FillRectangle(Brushes.White, 0, 0, width, height);
+      newWidth = Math.Min(widthX, heightX);
+      newHeight = Math.Min(widthX, heightX);
 
-      queens = new Bitmap(width, height);
+      img = new Bitmap(newWidth, newHeight);
+      layer0 = Graphics.FromImage(img);
+      layer0.FillRectangle(Brushes.White, 0, 0, newWidth, newHeight);
+
+      queens = new Bitmap(newWidth, newHeight);
       layer1 = Graphics.FromImage(queens);
 
-
-      xSpacing = (double) width / NumQueens;
-      ySpacing = (double) height / NumQueens;
+      xSpacing = (double)newWidth / NumQueens;
+      ySpacing = (double)newHeight / NumQueens;
       xOffset = xSpacing / 2;
       yOffset = ySpacing / 2;
 
       conflict = new bool[NumQueens];
 
+      // Draw the grid and set all conflicts to false
       for (int i = 1; i < NumQueens; i++)
       {
-        // Draw the grid
-        layer0.DrawLine(Pens.LightGray, (int)(xSpacing * i), 0, (int)(xSpacing * i), height);
-        layer0.DrawLine(Pens.LightGray, 0, (int)(ySpacing * i), width, (int)(ySpacing * i));
+        layer0.DrawLine(Pens.LightGray, (int)(xSpacing * i), 0, (int)(xSpacing * i), newHeight);
+        layer0.DrawLine(Pens.LightGray, 0, (int)(ySpacing * i), newWidth, (int)(ySpacing * i));
 
         conflict[i] = false;
       }
 
-
+      // Find the conflicts and draw the conflict lines
       for (int i = 0; i < NumQueens; i++)
       {
         for (int j = i + 1; j < NumQueens; j++)
@@ -136,7 +139,6 @@ namespace Test.NQueen
             conflict[j] = true;
           }
       }
-
 
       // Draw the queens
       for (int x = 0; x < NumQueens; x++)

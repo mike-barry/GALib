@@ -47,14 +47,7 @@
       this.mutationPropertyGrid = new System.Windows.Forms.PropertyGrid();
       this.mutationComboBox = new System.Windows.Forms.ComboBox();
       this.terminationTabPage = new System.Windows.Forms.TabPage();
-      this.terminationPropertyGrid = new System.Windows.Forms.PropertyGrid();
-      this.terminationRemoveButton = new System.Windows.Forms.Button();
-      this.terminationListBox = new System.Windows.Forms.ListBox();
-      this.terminationAddButton = new System.Windows.Forms.Button();
-      this.terminationComboBox = new System.Windows.Forms.ComboBox();
       this.statusTextBox = new System.Windows.Forms.TextBox();
-      this.button2 = new System.Windows.Forms.Button();
-      this.button1 = new System.Windows.Forms.Button();
       ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.terminationNumericUpDown)).BeginInit();
       this.tabControl.SuspendLayout();
@@ -92,13 +85,14 @@
       this.pictureBox.Location = new System.Drawing.Point(373, 13);
       this.pictureBox.Name = "pictureBox";
       this.pictureBox.Size = new System.Drawing.Size(600, 600);
+      this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
       this.pictureBox.TabIndex = 1;
       this.pictureBox.TabStop = false;
       // 
       // terminationNumericUpDown
       // 
       this.terminationNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-      this.terminationNumericUpDown.Location = new System.Drawing.Point(255, 550);
+      this.terminationNumericUpDown.Location = new System.Drawing.Point(76, 6);
       this.terminationNumericUpDown.Maximum = new decimal(new int[] {
             100000,
             0,
@@ -122,7 +116,7 @@
       // 
       this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       this.label1.AutoSize = true;
-      this.label1.Location = new System.Drawing.Point(185, 552);
+      this.label1.Location = new System.Drawing.Point(6, 8);
       this.label1.Name = "label1";
       this.label1.Size = new System.Drawing.Size(64, 13);
       this.label1.TabIndex = 4;
@@ -281,11 +275,6 @@
       // 
       // terminationTabPage
       // 
-      this.terminationTabPage.Controls.Add(this.terminationPropertyGrid);
-      this.terminationTabPage.Controls.Add(this.terminationRemoveButton);
-      this.terminationTabPage.Controls.Add(this.terminationListBox);
-      this.terminationTabPage.Controls.Add(this.terminationAddButton);
-      this.terminationTabPage.Controls.Add(this.terminationComboBox);
       this.terminationTabPage.Controls.Add(this.terminationNumericUpDown);
       this.terminationTabPage.Controls.Add(this.label1);
       this.terminationTabPage.Location = new System.Drawing.Point(4, 22);
@@ -295,63 +284,6 @@
       this.terminationTabPage.TabIndex = 4;
       this.terminationTabPage.Text = "Termination";
       this.terminationTabPage.UseVisualStyleBackColor = true;
-      // 
-      // terminationPropertyGrid
-      // 
-      this.terminationPropertyGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.terminationPropertyGrid.Enabled = false;
-      this.terminationPropertyGrid.Location = new System.Drawing.Point(3, 196);
-      this.terminationPropertyGrid.Name = "terminationPropertyGrid";
-      this.terminationPropertyGrid.Size = new System.Drawing.Size(340, 348);
-      this.terminationPropertyGrid.TabIndex = 10;
-      this.terminationPropertyGrid.Visible = false;
-      // 
-      // terminationRemoveButton
-      // 
-      this.terminationRemoveButton.Enabled = false;
-      this.terminationRemoveButton.Location = new System.Drawing.Point(268, 168);
-      this.terminationRemoveButton.Name = "terminationRemoveButton";
-      this.terminationRemoveButton.Size = new System.Drawing.Size(75, 23);
-      this.terminationRemoveButton.TabIndex = 9;
-      this.terminationRemoveButton.Text = "Remove";
-      this.terminationRemoveButton.UseVisualStyleBackColor = true;
-      this.terminationRemoveButton.Visible = false;
-      // 
-      // terminationListBox
-      // 
-      this.terminationListBox.Enabled = false;
-      this.terminationListBox.FormattingEnabled = true;
-      this.terminationListBox.Location = new System.Drawing.Point(3, 30);
-      this.terminationListBox.Name = "terminationListBox";
-      this.terminationListBox.Size = new System.Drawing.Size(259, 160);
-      this.terminationListBox.TabIndex = 8;
-      this.terminationListBox.Visible = false;
-      // 
-      // terminationAddButton
-      // 
-      this.terminationAddButton.Enabled = false;
-      this.terminationAddButton.Location = new System.Drawing.Point(268, 2);
-      this.terminationAddButton.Name = "terminationAddButton";
-      this.terminationAddButton.Size = new System.Drawing.Size(75, 23);
-      this.terminationAddButton.TabIndex = 7;
-      this.terminationAddButton.Text = "Add";
-      this.terminationAddButton.UseVisualStyleBackColor = true;
-      this.terminationAddButton.Visible = false;
-      // 
-      // terminationComboBox
-      // 
-      this.terminationComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.terminationComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-      this.terminationComboBox.Enabled = false;
-      this.terminationComboBox.FormattingEnabled = true;
-      this.terminationComboBox.Location = new System.Drawing.Point(3, 3);
-      this.terminationComboBox.Name = "terminationComboBox";
-      this.terminationComboBox.Size = new System.Drawing.Size(259, 21);
-      this.terminationComboBox.TabIndex = 6;
-      this.terminationComboBox.Visible = false;
       // 
       // statusTextBox
       // 
@@ -365,33 +297,11 @@
       this.statusTextBox.TabIndex = 7;
       this.statusTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
       // 
-      // button2
-      // 
-      this.button2.Enabled = false;
-      this.button2.Location = new System.Drawing.Point(93, 621);
-      this.button2.Name = "button2";
-      this.button2.Size = new System.Drawing.Size(75, 23);
-      this.button2.TabIndex = 8;
-      this.button2.Text = "Next";
-      this.button2.UseVisualStyleBackColor = true;
-      // 
-      // button1
-      // 
-      this.button1.Enabled = false;
-      this.button1.Location = new System.Drawing.Point(174, 621);
-      this.button1.Name = "button1";
-      this.button1.Size = new System.Drawing.Size(75, 23);
-      this.button1.TabIndex = 8;
-      this.button1.Text = "Reset";
-      this.button1.UseVisualStyleBackColor = true;
-      // 
       // MainForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(985, 656);
-      this.Controls.Add(this.button1);
-      this.Controls.Add(this.button2);
       this.Controls.Add(this.statusTextBox);
       this.Controls.Add(this.tabControl);
       this.Controls.Add(this.pictureBox);
@@ -436,13 +346,6 @@
     private System.Windows.Forms.PropertyGrid mutationPropertyGrid;
     private System.Windows.Forms.ComboBox mutationComboBox;
     private System.Windows.Forms.ComboBox paramsComboBox;
-    private System.Windows.Forms.Button terminationAddButton;
-    private System.Windows.Forms.ComboBox terminationComboBox;
-    private System.Windows.Forms.ListBox terminationListBox;
-    private System.Windows.Forms.PropertyGrid terminationPropertyGrid;
-    private System.Windows.Forms.Button terminationRemoveButton;
     private System.Windows.Forms.TextBox statusTextBox;
-    private System.Windows.Forms.Button button2;
-    private System.Windows.Forms.Button button1;
   }
 }

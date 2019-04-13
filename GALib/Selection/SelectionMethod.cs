@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 
 namespace GALib.Selection
@@ -9,13 +10,125 @@ namespace GALib.Selection
   /// </summary>
   public abstract class SelectionMethod
   {
+
     #region [ Members ]
 
     private double truncationPercent = 0.25;
-    
+    private int maxRetriesForDuplicates = 100;
+    private int selectionCount = 2;
+
     #endregion
 
-    #region [ Constructor ]
+    #region [ Properties ]
+
+    /// <summary>
+    /// Gets the population.
+    /// </summary>
+    /// <value>
+    /// The population.
+    /// </value>
+    protected List<IGenotype> Population { get; private set; } = null;
+
+    /// <summary>
+    /// Gets or sets the selection count.
+    /// </summary>
+    /// <value>
+    /// The selection count.
+    /// </value>
+    [Category("General"), DisplayName("Selection Count")]
+    protected int SelectionCount
+    {
+      get
+      {
+        return selectionCount;
+      }
+      set
+      {
+        if (value < 1)
+          selectionCount = 1;
+        else
+          selectionCount = value;
+      }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to allow duplicates during selection.
+    /// </summary>
+    /// <value>
+    ///   <c>true</c> if [allow duplicates]; otherwise, <c>false</c>.
+    /// </value>
+    [Category("General"), DisplayName("Allow Duplicate Selection")]
+    public bool AllowDuplicates { get; set; } = false;
+
+    /// <summary>
+    /// Gets or sets the maximum retries for duplicate collisions.
+    /// </summary>
+    /// <value>
+    /// The maximum retries for duplicates.
+    /// </value>
+    /// <remarks>This is used to prevent infinite loops</remarks>
+    [Category("General"), DisplayName("Max Duplicate Collisions")]
+    public int MaxRetriesForDuplicates
+    {
+      get
+      {
+        return maxRetriesForDuplicates;
+      }
+      set
+      {
+        if (value < 1)
+          maxRetriesForDuplicates = 1;
+        else
+          maxRetriesForDuplicates = value;
+      }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether this <see cref="SelectionMethod"/> should truncate the population before performing the selection.
+    /// </summary>
+    /// <value>
+    ///   <c>true</c> if truncate; otherwise, <c>false</c>.
+    /// </value>
+    [Category("General"), DisplayName("Truncate Population Before Selection")]
+    public bool TruncateBeforeSelect { get; set; } = false;
+
+    /// <summary>
+    /// Gets or sets the truncation percent.
+    /// </summary>
+    /// <value>
+    /// The truncation percent.
+    /// </value>
+    [Category("General"), DisplayName("Truncation Percent")]
+    public double TruncationPercent
+    {
+      get
+      {
+        return truncationPercent;
+      }
+      set
+      {
+        if (value > 1)
+          truncationPercent = 1;
+        else if (value < 0)
+          truncationPercent = 0;
+        else
+          truncationPercent = value;
+      }
+    }
+
+    #endregion
+
+    #region [ Abstract Method ]
+
+    /// <summary>
+    /// Performs selection
+    /// </summary>
+    /// <returns>A list of the selected individuals</returns>
+    public abstract List<IGenotype> DoSelection();
+
+    #endregion
+
+    #region [ Methods ]
 
     /// <summary>
     /// Initializes the selection process
@@ -42,51 +155,21 @@ namespace GALib.Selection
       }
     }
 
-    #endregion 
-
-    #region [ Properties ]
-
-    protected List<IGenotype> Population { get; private set; } = null;
-    public bool AllowDuplicates { get; set; } = false;
-    public int MaxRetriesForDuplicates { get; set; } = 100; // This is used to prevent infinite loops
-    public int SelectionCount { get; set; } = 2;
-
     /// <summary>
-    /// Gets or sets a value indicating whether this <see cref="SelectionMethod"/> should truncate the population before performing the selection.
+    /// Checks the if the population contains an individual with negative fitness.
     /// </summary>
-    /// <value>
-    ///   <c>true</c> if truncate; otherwise, <c>false</c>.
-    /// </value>
-    public bool TruncateBeforeSelect { get; set; } = false;
-
-    /// <summary>
-    /// Gets or sets the truncation percent.
-    /// </summary>
-    /// <value>
-    /// The truncation percent.
-    /// </value>
-    /// <exception cref="ArgumentException">Value must be greater than zero and less than 1</exception>
-    public double TruncationPercent
+    /// <param name="population">The population.</param>
+    /// <returns><c>true</c> if the population contains an individual with negative fitness; otherwise, <c>false</c></returns>
+    public bool CheckNegativeFitness()
     {
-      get
-      {
-        return truncationPercent;
-      }
-      set
-      {
-        if (value > 1 || value <= 0)
-          throw new ArgumentException("Value must be greater than zero and less than 1");
-        truncationPercent = value;
-      }
+      foreach (IGenotype individual in Population)
+        if (individual.Fitness < 0)
+          return true;
+
+      return false;
     }
 
-    #endregion
-
-    /// <summary>
-    /// Performs selection
-    /// </summary>
-    /// <returns>A list of the selected individuals</returns>
-    public abstract List<IGenotype> DoSelection();
+    #endregion 
 
   }
 }

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GALib.Crossover
 {
@@ -15,6 +14,7 @@ namespace GALib.Crossover
   {
     public Order1Crossover() : base(true) { }
 
+    [Category("Parameters"), DisplayName("Produce Two Children")]
     public bool ProduceTwoChildren { get; set; } = true;
 
     /// <summary>
@@ -66,6 +66,17 @@ namespace GALib.Crossover
       var left = unused.Skip(length - a - b);
       var right = unused.Take(length - a - b);
       return left.Concat(middle.Concat(right)).ToArray();
+    }
+
+    /// <summary>
+    /// Converts to string.
+    /// </summary>
+    /// <returns>
+    /// A <see cref="System.String" /> that represents this instance.
+    /// </returns>
+    public override string ToString()
+    {
+      return "Order Crossover (OX1)";
     }
 
     /// <summary>

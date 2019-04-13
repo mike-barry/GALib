@@ -12,5 +12,10 @@ namespace GALib.Termination
     {
       return ga.SolutionFound;
     }
+
+    public override string ToString()
+    {
+      return "Solution Found";
+    }
   }
 }

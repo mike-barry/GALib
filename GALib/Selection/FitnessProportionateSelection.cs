@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 
 namespace GALib.Selection
@@ -14,8 +15,8 @@ namespace GALib.Selection
   {
     private double fitnessMetric = double.NaN;
 
+    [Category("Parameters"), DisplayName("Use Stochastic Acceptance")]
     public bool UseStochasticAcceptance { get; set; }
-    public int MaxRetriesForStochasticAcceptance { get; set; } = 100;
 
     /// <summary>
     /// Initializes the selection process
@@ -25,7 +26,7 @@ namespace GALib.Selection
     {
       base.Initialize(population);
 
-      if (CheckNegativeFitness(Population))
+      if (CheckNegativeFitness())
         throw new ArgumentException("Population contains an individual with negative fitness");
 
       if (UseStochasticAcceptance)
@@ -75,6 +76,17 @@ namespace GALib.Selection
     }
 
     /// <summary>
+    /// Converts to string.
+    /// </summary>
+    /// <returns>
+    /// A <see cref="System.String" /> that represents this instance.
+    /// </returns>
+    public override string ToString()
+    {
+      return "Fitness Proportionate Selection";
+    }
+
+    /// <summary>
     /// Selects a single individual from the population using the simple method
     /// </summary>
     /// <param name="population">The population</param>
@@ -109,12 +121,10 @@ namespace GALib.Selection
     /// <returns>An individual from the population</returns>
     private IGenotype StochasticAcceptanceSelect(List<IGenotype> population, double maxFitness)
     {
-      int retries, index;
+      int index;
       double randFitness;
 
-      retries = 0;
-
-      while (++retries < MaxRetriesForStochasticAcceptance)
+      while (true)
       {
         // Randomly select an individual
         index = (int)(Tools.StaticRandom.NextDouble() * population.Count);
@@ -126,23 +136,6 @@ namespace GALib.Selection
         if (randFitness < population[index].Fitness)
           return population[index];
       }
-
-      // Handle the situation where we've retried too many times
-      throw new Exception("Too many retries attempted with stochastic acceptance");
-    }
-
-    /// <summary>
-    /// Returns false if the population contains an individual with a negative fitness
-    /// </summary>
-    /// <param name="population">The population</param>
-    /// <returns></returns>
-    private bool CheckNegativeFitness(List<IGenotype> population)
-    {
-      foreach (IGenotype individual in population)
-        if (individual.Fitness < 0)
-          return true;
-
-      return false;
     }
 
     /// <summary>
@@ -161,7 +154,6 @@ namespace GALib.Selection
       {
         AllowDuplicates = DUPLICATES,
         MaxRetriesForDuplicates = 100,
-        MaxRetriesForStochasticAcceptance = 100,
         SelectionCount = SIZE,
         UseStochasticAcceptance = true
       };

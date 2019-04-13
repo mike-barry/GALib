@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace GALib.Mutation
 {
@@ -26,6 +23,7 @@ namespace GALib.Mutation
     /// The mutation chance.
     /// </value>
     /// <exception cref="ArgumentException">Value must be between 0 and 1</exception>
+    [Category("Parameters"), DisplayName("Mutation Probability")]
     public double MutationChance
     {
       get
@@ -46,6 +44,7 @@ namespace GALib.Mutation
     /// <value>
     ///   <c>true</c> if mutation method requires a distinct chromosome; otherwise, <c>false</c>.
     /// </value>
+    [Browsable(false)]
     public bool DistinctChromosomeRequired { get; private set; } // TODO need to implement this
 
     /// <summary>

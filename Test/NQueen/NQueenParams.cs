@@ -13,7 +13,7 @@ namespace Test.NQueen
     /// The number queens.
     /// </value>
     [Category("Problem Parameters"), DisplayName("Number of Queens")]
-    public int NumQueens { get; set; } = 10;
+    public int NumQueens { get; set; } = 50;
 
     /// <summary>
     /// Converts to string.

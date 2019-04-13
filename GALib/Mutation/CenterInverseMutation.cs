@@ -39,6 +39,17 @@ namespace GALib.Mutation
     }
 
     /// <summary>
+    /// Converts to string.
+    /// </summary>
+    /// <returns>
+    /// A <see cref="System.String" /> that represents this instance.
+    /// </returns>
+    public override string ToString()
+    {
+      return "Center Inverse Mutation";
+    }
+
+    /// <summary>
     /// Tests this mutation method.
     /// </summary>
     public void Test()

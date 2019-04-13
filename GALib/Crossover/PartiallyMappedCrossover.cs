@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace GALib.Crossover
 {
@@ -13,6 +10,7 @@ namespace GALib.Crossover
     //public int MinCrossoverWidth { get; set; } // TODO implement
     //public int MaxCrossoverWidth { get; set; } // TODO implement
 
+    [Category("Parameters"), DisplayName("Produce Two Children")]
     public bool ProduceTwoChildren { get; set; } = true;
 
     /// <summary>
@@ -107,6 +105,17 @@ namespace GALib.Crossover
       }
 
       return children;
+    }
+
+    /// <summary>
+    /// Converts to string.
+    /// </summary>
+    /// <returns>
+    /// A <see cref="System.String" /> that represents this instance.
+    /// </returns>
+    public override string ToString()
+    {
+      return "Partially Mapped Crossover (PMX)";
     }
   }
 }

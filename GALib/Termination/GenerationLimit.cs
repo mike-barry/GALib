@@ -41,5 +41,10 @@ namespace GALib.Termination
       else
         return false;
     }
+
+    public override string ToString()
+    {
+      return "Generation Limit";
+    }
   }
 }
