@@ -7,7 +7,7 @@ using GALib;
 using GALib.Crossover;
 using GALib.Mutation;
 
-namespace Test
+namespace GALibExamples
 {
   class Program
   {

@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 using GALib;
 
-namespace Test.TravelingSalesman
+namespace GALibExamples.TravelingSalesman
 {
   public class TravellingSalesmanParams : GeneticAlgorithmParams
   {

@@ -4,7 +4,7 @@ using System.Drawing;
 
 using GALib;
 
-namespace Test.NQueen
+namespace GALibExamples.NQueen
 {
   public class NQueenGA : GeneticAlgorithm<int>
   {

@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.271
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GALib", "GALib\GALib.csproj", "{0FFF7CF1-EF91-419D-BBF3-166AC5E77CAB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{E0819F15-44B0-4650-B638-382A18511E15}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GALibExamples", "GALibExamples\GALibExamples.csproj", "{E0819F15-44B0-4650-B638-382A18511E15}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

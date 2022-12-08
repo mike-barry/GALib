@@ -8,10 +8,10 @@ using GALib;
 using GALib.Crossover;
 using GALib.Selection;
 using GALib.Mutation;
-using Test.TravelingSalesman;
-using Test.NQueen;
+using GALibExamples.TravelingSalesman;
+using GALibExamples.NQueen;
 
-namespace Test
+namespace GALibExamples
 {
   public partial class MainForm : Form
   {

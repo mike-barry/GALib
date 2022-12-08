@@ -2,7 +2,7 @@
 
 using GALib;
 
-namespace Test.NQueen
+namespace GALibExamples.NQueen
 {
   public class NQueenParams : GeneticAlgorithmParams
   {

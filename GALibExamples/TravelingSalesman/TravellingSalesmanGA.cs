@@ -7,7 +7,7 @@ using System.Drawing;
 using GALib;
 using System.Drawing.Imaging;
 
-namespace Test.TravelingSalesman
+namespace GALibExamples.TravelingSalesman
 {
   public class TravellingSalesmanGA : GeneticAlgorithm<int>
   {
