@@ -32,7 +32,7 @@ namespace GALib.Mutation
       }
       set
       {
-        if (mutationChance < 0 || mutationChance > 1)
+        if (value < 0 || value > 1)
           throw new ArgumentException("Value must be between 0 and 1");
         mutationChance = value;
       }
@@ -55,7 +55,7 @@ namespace GALib.Mutation
     /// <returns></returns>
     public virtual bool DoMutation<Gene>(ref Gene[] chromosome)
     {
-      if (MutationChance < Tools.StaticRandom.NextDouble())
+      if (Tools.StaticRandom.NextDouble() < MutationChance)
       {
         HandleMutation(ref chromosome);
         return true;

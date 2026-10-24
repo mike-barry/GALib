@@ -32,8 +32,8 @@ namespace GALib.Crossover
       parentA = ((Genotype<Gene>)parents[0]).ToList();
       parentB = ((Genotype<Gene>)parents[1]).ToList();
       length = parentA.Count;
-      a = 3;// Tools.StaticRandom.Next(0, length);
-      b = 4;// Tools.StaticRandom.Next(0, length - a + 1);
+      a = Tools.StaticRandom.Next(0, length);
+      b = Tools.StaticRandom.Next(1, length - a + 1);
 
       if (ProduceTwoChildren)
       {
